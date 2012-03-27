@@ -1,0 +1,9 @@
+Creating a "Renesas EMEV" device to build upon AOSP
+
+-----------------------
+
+export AOSP=~/Android/aosp
+cd $AOSP
+mkdir -p device/renesas/emev
+cd device/renesas/emev
+
