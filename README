@@ -1,9 +1,35 @@
 Creating a "Renesas EMEV" device to build upon AOSP
 
 -----------------------
+1) Download AOSP source code follwong the steps 
 
-export AOSP=~/Android/aosp
+ http://source.android.com/source/downloading.html
+
+using version "2.3.6_r1" for the repo init" step:
+
+ repo init -u https://android.googlesource.com/platform/manifest -b android-2.3.6_r1
+
+Then define an environment varialble to same the AOSP entry dir, where you have just donwloaded the source:
+E.g. 
+
+ export AOSP=~/Android/aosp
+
+-----------------------
+2) Clone Renesas custom repositories
+
+For each repository of those listed below:
+
+GitHub repository                    AOSP location
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+ffxx68/Renesas-device_emev           device/renesas/emev   OK
+ffxx68/Renesas-hardware_libhardware  hardware/libhardware  OK
+ffxx68/Renesas-frameworks_base       frameworks/base       OK
+ffxx68/Renesas-bionic                bionic                ...
+ffxx68/Renesas-build                 build
+
+clone the repository locally, with:
+
 cd $AOSP
-mkdir -p device/renesas/emev
-cd device/renesas/emev
+git clone git@github.com:<GitHub repository>.git <AOSP location>
 
+Note 1 - I mean "ffxx68/Renesas-device_emev" to be the "entry point" of the entire Renesas "MyPad" project, with the present README explaining the procedure to build the firmware update package from scratch.
