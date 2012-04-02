@@ -5,31 +5,104 @@ Creating a "Renesas EMEV" device to build upon AOSP
 
  http://source.android.com/source/downloading.html
 
-using version "2.3.6_r1" for the repo init" step:
+I used version "2.3.6_r1" for my first "repo init" step. E.g.
 
  repo init -u https://android.googlesource.com/platform/manifest -b android-2.3.6_r1
 
-Then define an environment varialble to same the AOSP entry dir, where you have just donwloaded the source:
-E.g. 
+It's useful to define an environment variable, to refer to the AOSP entry dir. 
+E.g. I downloaded the AOSP source under my local home, in Android/aosp. Then:
 
  export AOSP=~/Android/aosp
 
 -----------------------
-2) Clone Renesas custom repositories
+2) My custom repositories
 
-For each repository of those listed below:
+My repository                        AOSP location          Status
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ffxx68/Renesas-device_emev           device/renesas/emev    OK
+ffxx68/Renesas-manifest		     .repo
+ffxx68/Renesas-hardware_libhardware  hardware/libhardware   OK
+ffxx68/Renesas-bionic                bionic                 OK
+ffxx68/Renesas-frameworks_base       frameworks/base        OK 
+ffxx68/Renesas-build                 build                  OK
 
-GitHub repository                    AOSP location
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-ffxx68/Renesas-device_emev           device/renesas/emev   OK
-ffxx68/Renesas-hardware_libhardware  hardware/libhardware  OK
-ffxx68/Renesas-frameworks_base       frameworks/base       OK
-ffxx68/Renesas-bionic                bionic                ...
-ffxx68/Renesas-build                 build
 
-clone the repository locally, with:
+Note 1 - I meant "ffxx68/Renesas-device_emev" to be the "entry point" of the entire Renesas "MyPad" project, with the present README explaining the procedure to build the firmware update package from scratch.
 
-cd $AOSP
+As "device/renesas/emev" doesn't exist in android GitHub, nor any device/ root I can find, I created it from scratch and pushed on my GitHub repository.
+
+Renesas-manifest is forked from android/platform_manifest, branch 2.3.6_21
+
+All the rest were forked from the android/platform_..., branch Gingerbread.
+
+-----------------------
+
+As "device/renesas/emev" doesn't exist in AOSP, we need to clone it from our (ffxx68) GitHub:
+
 git clone git@github.com:<GitHub repository>.git <AOSP location>
 
-Note 1 - I mean "ffxx68/Renesas-device_emev" to be the "entry point" of the entire Renesas "MyPad" project, with the present README explaining the procedure to build the firmware update package from scratch.
+-----------------------
+
+The others can be pulled from our GitHub repos, after creating a "customized branch", i.e
+
+cd $AOSP/<AOSP location>
+git branch MyPad
+git checkout MyPad
+git remote add github git@github.com:<my repository>.git
+git pull github/MyPad .  <--- ????
+
+This way, "git pull" would merge our GithHub code with latest AOSP version downlaode by "repo sync"
+
+If you change anything, to push it back onto our GitHub you would do:
+
+git add <whatever file you changed>
+git commit -m "Leave your commit comments here"
+git push -u github MyPad
+
+-----------------------
+
+
+
+-----------------------
+
+To create my repos, I followed this route (example for "framework/base")
+
+1) In GitHub, going to android/platform_framework_base and selecting branch "Gingerbread":
+
+   -> https://github.com/android/platform_frameworks_base/tree/gingerbread
+
+2) Using the "Fork" button, to create the repo in my GitHub account (ffxx68). Then go there:
+
+   -> https://github.com/ffxx68/platform_frameworks_base
+
+3) Using the "Admin" button, to rename it following our convention:
+
+   "Renesas-frameworks_base"
+   
+4) From the code location, I go to my local branch, which was already modified for my Renesas build:
+
+cd $AOSP/frameworks/base/
+git branch
+ * MyPad
+git log
+ commit ec0bc3029bbe1eb37aa4cd16ad9b64d0e13a1593
+ Author: ffxx68 <ffumi68@gmail.com>
+ Date:   Thu Mar 29 12:54:19 2012 +0200
+    Fixing compilation error on Ubuntu 11.10
+
+5) Finally, pushing this branch onto the just forked repo:
+
+git remote add github git@github.com:Renesas-frameworks_base.git
+git push -u github MyPad
+ ...
+ To git@github.com:ffxx68/Renesas-frameworks_base.git
+ * [new branch]      MyPad -> MyPad
+ Branch MyPad set up to track remote branch MyPad from github.
+
+6) As a result, I found a new branch "MyPad" under my ffxx68/Renesas-frameworks_base repository.
+
+
+-----------------------
+
+The 
+
