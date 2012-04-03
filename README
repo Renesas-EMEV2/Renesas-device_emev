@@ -36,7 +36,9 @@ I meant "ffxx68/Renesas-device_emev" to be the "entry point" to ROSP, with the p
 
 As "device/renesas/emev" doesn't exist in android GitHub, I created it from scratch and pushed on the ffxx68 GitHub account.
 
-All the rest were forked from the corresponding android/platform_... the Gingerbread branch. The procedure I followed for each project was:
+All the rest were forked from the corresponding android/platform_... the Gingerbread branch. 
+
+The procedure I followed, for each project was:
 
  - In GitHub, fork android/platform_<abc>, Gingerbread branch, to ffxx68
  - In GitHub, admin-rename ffxx68/platform_<abc> to ffxx68/Renesas-<abc>
@@ -78,15 +80,32 @@ git add <whatever file you changed>
 git commit -m "Leave your commit comments here"
 git push -u github MyPad
 
+This woud require you to have an account registered on GitHub, where you may have forked the project to.
+Find help oh GitHub, for admin and access details. E.g.
+
+ http://help.github.com/send-pull-requests/
+
+If you find it easier, use our ROSP discussion group to let us have your patches instead:
+
+ https://groups.google.com/forum/#!forum/renesas-emev-osp
+ 
+Use the same group if you think anything in this process may be improved. Suggestions are welcome!
+
 -----------------------
 
 6) Building Android
 
 Once you have your code, you would build Android with:
 
-cd $AOSP
-. build/envsetup.sh
-lunch full_renesas_emev-eng
+ cd $AOSP
+ . build/envsetup.sh
+
+including device/htc/passion/vendorsetup.sh
+including device/renesas/emev/vendorsetup.sh
+including device/samsung/crespo4g/vendorsetup.sh
+including device/samsung/crespo/vendorsetup.sh
+
+ lunch full_renesas_emev-eng
 
 PLATFORM_VERSION_CODENAME=REL
 PLATFORM_VERSION=2.3.6
@@ -101,9 +120,10 @@ HOST_OS=linux
 HOST_BUILD_TYPE=release
 BUILD_ID=GRK39F
 
-time make -j2 showcommands 2>&1 | tee make.log
+ time make -j2 showcommands 2>&1 | tee make.log
 ...
- Installed file list: out/target/product/emev/installed-files.txt
+
+Installed file list: out/target/product/emev/installed-files.txt
 
 
 
