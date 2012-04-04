@@ -1,5 +1,5 @@
 
- Renesas Open Source Project (ROSP)
+ Renesas EMEV Open Source Project (ROSP)
 
 -----------------------
 
@@ -16,21 +16,39 @@ E.g. I downloaded the AOSP source under my local home, in Android/aosp. Then:
 
  export AOSP=~/Android/aosp
 
+Note - downloading the full AOSP source may take hours to complete, even on a fast connection.
+
 -----------------------
 
 2) The following customized projects make up our ROSP:
 
 Project                              Path                  
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-ffxx68/Renesas-device_emev           device/renesas/emev
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+ffxx68/Renesas-device_emev           device/renesas/emev   
+ffxx68/Renesas-frameworks_base       frameworks/base       
+
 ffxx68/Renesas-hardware_libhardware  hardware/libhardware
 ffxx68/Renesas-bionic                bionic
-ffxx68/Renesas-frameworks_base       frameworks/base
 ffxx68/Renesas-build                 build
 
 -----------------------
 
-3) Notes about projects
+3) Using our ROSP-customized manifest
+
+A customized version of the AOSP 2.3.6_r1 manifest can be found at:
+
+ https://github.com/ffxx68/Renesas-manifest
+
+The "repo init" step can be made with:
+
+ repo init -u git@github.com:ffxx68/Renesas-manifest -b android-2.3.6_r1
+
+Here, in .repo/manifests/deafult.xml manifest, customized projects are linked to the ffx68 repository.
+The rest are pulled off the standard googlesource repository.
+
+-----------------------
+
+4) Notes about projects
 
 I meant "ffxx68/Renesas-device_emev" to be the "entry point" to ROSP, with the present README explaining the basic steps to build the firmware update package from scratch.
 
@@ -53,32 +71,33 @@ If any other project requires customization, apart from the above ones, I can cr
 
 -----------------------
 
-4) How to pull customized code locally
+5) How to pull customized code locally
 
 As "device/renesas/emev" doesn't exist in AOSP, we have to clone it from our (ffxx68) GitHub:
 
-git clone git@github.com:Renesas-device_emev.git device/renesas/emev
+ cd $AOSP
+ git clone git@github.com:Renesas-device_emev.git device/renesas/emev
 
 The others would be pulled locally from our GitHub projects, i.e.
 
-cd $AOSP/<Path>
-git branch MyCustomPad
-git checkout MyCustomPad
-git remote add github git@github.com:<Project>.git
-git fetch github
-git merge github/MyPad
+ cd $AOSP/<Path>
+ git branch MyCustomPad
+ git checkout MyCustomPad
+ git remote add github git@github.com:<Project>.git
+ git fetch github
+ git merge github/MyPad
 
 This way, "git fetch & merge" would merge our GithHub code with latest AOSP version too
 
 -----------------------
 
-5) How to push changes back to GitHub.
+6) How to push changes back to GitHub.
 
 If you change anything, to push it back onto our GitHub repository you would do:
 
-git add <whatever file you changed>
-git commit -m "Leave your commit comments here"
-git push -u github MyPad
+ git add <whatever file you changed>
+ git commit -m "Leave your commit comments here"
+ git push -u github MyPad
 
 This woud require you to have an account registered on GitHub, where you may have forked the project to.
 Find help oh GitHub, for admin and access details. E.g.
@@ -89,11 +108,11 @@ If you find it easier, use our ROSP discussion group to let us have your patches
 
  https://groups.google.com/forum/#!forum/renesas-emev-osp
  
-Use the same group if you think anything in this process may be improved. Suggestions are welcome!
+Use the same group if you think anything in the whole process may be improved. Suggestions are welcome!
 
 -----------------------
 
-6) Building Android
+7) Building Android
 
 Once you have your code, you would build Android with:
 
@@ -122,9 +141,13 @@ BUILD_ID=GRK39F
 
  time make -j2 showcommands 2>&1 | tee make.log
 ...
-
+(took about 1-1.5 hours to make, on my 2x2.4GHz core, 4 Gb RAM Ubutnu VM)
+...
 Installed file list: out/target/product/emev/installed-files.txt
 
+-----------------------
 
+8) Packaging files for testing
 
+ ... TO DO ...
 
