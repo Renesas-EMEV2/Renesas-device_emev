@@ -3,15 +3,22 @@
 
 -----------------------
 
-1) Download full AOSP source code follwing the steps in:
+1) Download full AOSP source code following the steps in:
 
  http://source.android.com/source/downloading.html
 
-I used version "2.3.6_r1" for my first "repo init" step. E.g.
+A customized version of the AOSP 2.3.6_r1 manifest can be found at:
 
- repo init -u https://android.googlesource.com/platform/manifest -b android-2.3.6_r1
+ https://github.com/ffxx68/Renesas-manifest
 
-It's useful to define an environment variable, to refer to the AOSP entry dir. 
+The "repo init" step should be made with:
+
+ repo init -u git@github.com:ffxx68/Renesas-manifest -b android-2.3.6_r1
+
+Here, in .repo/manifests/deafult.xml manifest, customized projects are linked to the ffx68 repository.
+The rest are pulled off the standard googlesource repository.
+
+NOTE - It's useful to define an environment variable, to refer to the AOSP entry dir. 
 E.g. I downloaded the AOSP source under my local home, in Android/aosp. Then:
 
  export AOSP=~/Android/aosp
@@ -25,26 +32,10 @@ Note - downloading the full AOSP source may take hours to complete, even on a fa
 Project                              Path                  
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ffxx68/Renesas-device_emev           device/renesas/emev   
-ffxx68/Renesas-frameworks_base       frameworks/base       
-
-ffxx68/Renesas-hardware_libhardware  hardware/libhardware
+ffxx68/Renesas-hardware_emev         hardware/renesas/emev
 ffxx68/Renesas-bionic                bionic
+ffxx68/Renesas-frameworks_base       frameworks/base       
 ffxx68/Renesas-build                 build
-
------------------------
-
-3) Using our ROSP-customized manifest
-
-A customized version of the AOSP 2.3.6_r1 manifest can be found at:
-
- https://github.com/ffxx68/Renesas-manifest
-
-The "repo init" step can be made with:
-
- repo init -u git@github.com:ffxx68/Renesas-manifest -b android-2.3.6_r1
-
-Here, in .repo/manifests/deafult.xml manifest, customized projects are linked to the ffx68 repository.
-The rest are pulled off the standard googlesource repository.
 
 -----------------------
 
@@ -52,14 +43,14 @@ The rest are pulled off the standard googlesource repository.
 
 I meant "ffxx68/Renesas-device_emev" to be the "entry point" to ROSP, with the present README explaining the basic steps to build the firmware update package from scratch.
 
-As "device/renesas/emev" doesn't exist in android GitHub, I created it from scratch and pushed on the ffxx68 GitHub account.
+As "device/renesas/emev" didn't exist in the AOSP, so these were created from scratch and pushed on the ffxx68 GitHub account.
 
-All the rest were forked from the corresponding android/platform_... the Gingerbread branch. 
+Others were forked from the corresponding android/platform_... the Gingerbread branch. 
 
 The procedure I followed, for each project was:
 
  - In GitHub, fork android/platform_<abc>, Gingerbread branch, to ffxx68
- - In GitHub, admin-rename ffxx68/platform_<abc> to ffxx68/Renesas-<abc>
+ - In GitHub, admin->rename ffxx68/platform_<abc> to ffxx68/Renesas-<abc>
  - cd <abc-path>
  - git branch MyPad
  - git checkout MyPad
@@ -69,9 +60,16 @@ The procedure I followed, for each project was:
 
 If any other project requires customization, apart from the above ones, I can create another project on ffxx68 in the same way.
 
+The "frameworks/base" and "build" were modified only to allow compilation on Ubuntu 11.10 64-bit, after these suggestions:
+
+ http://groups.google.com/group/android-building/browse_thread/thread/7b7d307c8038aab9
+ http://code.google.com/p/android/issues/detail?id=20795
+
+Each projects has a "MyPad" branch, to track ROSP changes.
+ 
 -----------------------
 
-5) How to pull customized code locally
+5) How to pull single projects locally
 
 As "device/renesas/emev" doesn't exist in AOSP, we have to clone it from our (ffxx68) GitHub:
 
@@ -91,7 +89,7 @@ This way, "git fetch & merge" would merge our GithHub code with latest AOSP vers
 
 -----------------------
 
-6) How to push changes back to GitHub.
+6) How to push changes back to GitHub
 
 If you change anything, to push it back onto our GitHub repository you would do:
 
