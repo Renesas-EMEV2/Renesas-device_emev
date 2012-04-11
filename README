@@ -36,6 +36,8 @@ ffxx68/Renesas-hardware_emev         hardware/renesas/emev
 ffxx68/Renesas-bionic                bionic
 ffxx68/Renesas-frameworks_base       frameworks/base       
 ffxx68/Renesas-build                 build
+ffxx68/Renesas-system_core           system/core
+ffxx68/Renesas-system_vold           system/vold
 
 -----------------------
 
@@ -147,5 +149,11 @@ Installed file list: out/target/product/emev/installed-files.txt
 
 8) Packaging files for testing
 
- ... TO DO ...
+The Android file system packaging script found at
+ 
+ $AOSP/device/renesas/emev/pack.sh
+
+Note - the script assumes $AOSP is set with the path to aosp top dir.
+
+The u-boot and kernel image need to be assembled manually in to the firmware update SD-card (until we setup a more automated script).
 
