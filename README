@@ -161,9 +161,9 @@ The u-boot and kernel image need to be assembled manually in to the firmware upd
 
 -----------------------
 
-9) SD-bootable test
+9) Test with a bootable SD-card
 
-If you wish to test without replacing the NAND-resident firmware, refer to the intructions from the project:
+If you wish to test a build without replacing the NAND-resident firmware, refer to project:
 
  https://github.com/ffxx68/Renesas-BootSD
 
