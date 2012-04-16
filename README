@@ -9,6 +9,8 @@
 
 A customized version of the AOSP 2.3.6_r1 manifest can be found at:
 
+
+
  https://github.com/ffxx68/Renesas-manifest
 
 The "repo init" step should be made with:
@@ -156,4 +158,14 @@ The Android file system packaging script found at
 Note - the script assumes $AOSP is set with the path to aosp top dir.
 
 The u-boot and kernel image need to be assembled manually in to the firmware update SD-card (until we setup a more automated script).
+
+-----------------------
+
+9) SD-bootable test
+
+If you wish to test without replacing the NAND-resident firmware, refer to the intructions from the project:
+
+ https://github.com/ffxx68/Renesas-BootSD
+
+ 
 
