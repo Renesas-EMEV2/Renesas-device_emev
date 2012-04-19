@@ -13,6 +13,7 @@ cd  ${ANDROID_DIR}
 rm -f tmp-android.tar.gz android-fs.tar.gz
 sudo rm -rf android-fs/
 cd ${ANDROID_DIR}/out/target/product/emev/
+cp ${ANDROID_DIR}/device/renesas/emev/initlogo.rle ./system/
 tar zcf ${ANDROID_DIR}/tmp-android.tar.gz system data root
 cd ${WORK_DIR}
 if [ ! -d ${WORK_DIR}/android-fs ] ; then
