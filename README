@@ -149,19 +149,49 @@ Installed file list: out/target/product/emev/installed-files.txt
 
 -----------------------
 
-8) Packaging files for testing
+8) Pulling OMX, SGX, WiFi firmware and libs from device
 
-The Android file system packaging script found at
- 
- $AOSP/device/renesas/emev/pack.sh
+The script
 
-Note - the script assumes $AOSP is set with the path to aosp top dir.
+ $AOSP/device/renesas/emev/pull_firmware.sh
 
-The u-boot and kernel image need to be assembled manually in to the firmware update SD-card (until we setup a more automated script).
+is needed to pull out of the real device (if you don't have already them) the firmware and libraries managing:
+
+ - the video encoder/decoder (OMX)
+ - 3D-graphics accelerator (SGX)
+ - Broadcom WiFi dongle
+
+which are released only as pre-compiled libraries.
+
+The device must have a stock 2.3 Android on board, to pull these file from, and should be running and connected through USB to your build host.
+
+Try "adb shell" first, to verify if the connection works properly.
+
+The script creats a "firmware" dir, under $AOSP/device/renesas/emev, where it stores all the files.
+
+You need to run this script only once, as these files aren't touched by the build procedure.
+
+The script assumes $AOSP is set with the path to aosp top dir.
 
 -----------------------
 
-9) Test with a bootable SD-card
+9) Packaging files
+
+The script
+
+ $AOSP/device/renesas/emev/pack.sh
+
+collects the complete Android file system and the firmware files (from pull_firmware.sh) and then packs them in 
+
+ $AOSP/android-fs4.tar.gz
+
+The script assumes $AOSP is set with the path to aosp top dir.
+
+Then, the u-boot and kernel (uImage) need to be assembled manually into a firmware update SD-card.
+
+-----------------------
+
+10) Test with a bootable SD-card
 
 If you wish to test a build without replacing the NAND-resident firmware, refer to project:
 
