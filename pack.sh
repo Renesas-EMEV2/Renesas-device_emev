@@ -15,6 +15,13 @@ rm -f ${ANDROID_DIR}/tmp-android.tar.gz
 rm -f ${OBJ_DIR}/android-fs4.tar.gz
 sudo rm -rf ${WORK_DIR}/android-fs
 
+# WORKAROUND (need to figure out why build doesn't do that)
+cd ${ANDROID_DIR}/out/target/product/emev/
+cp ./obj/lib/copybit.emxx.so ./system/lib/hw/copybit.emxx.so
+cp ./obj/lib/gralloc.emxx.so ./system/lib/hw/gralloc.emxx.so
+cp ./obj/lib/overlay.emxx.so ./system/lib/hw/overlay.emxx.so
+
+# packaging Android file system
 cd ${ANDROID_DIR}/out/target/product/emev/
 cp ${ANDROID_DIR}/device/renesas/emev/initlogo.rle ./root/
 tar zcf ${ANDROID_DIR}/tmp-android.tar.gz system data root
@@ -30,7 +37,7 @@ mv system root
 mv root/* ./
 
 # Copying builtin firmware
-#cp -r ${ANDROID_DIR}/device/renesas/emev/firmware/* ./
+cp -r ${ANDROID_DIR}/device/renesas/emev/firmware/* ./
 
 rmdir root
 chmod +r system/usr/keychars/*
