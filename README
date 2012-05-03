@@ -1,4 +1,3 @@
-
  Renesas EMEV Open Source Project (ROSP)
 
 -----------------------
@@ -9,23 +8,21 @@
 
 A customized version of the AOSP 2.3.6_r1 manifest can be found at:
 
-
-
  https://github.com/ffxx68/Renesas-manifest
 
-The "repo init" step should be made with:
+so, the "repo init" step should be made using this manifest:
 
  repo init -u git@github.com:ffxx68/Renesas-manifest -b android-2.3.6_r1
 
-Here, in .repo/manifests/deafult.xml manifest, customized projects are linked to the ffx68 repository.
-The rest are pulled off the standard googlesource repository.
+In .repo/manifests/deafult.xml, customized projects are linked to the corresponding ffxx68 repositories, in place of the default Android ones.
+The rest are pulled off the standard googlesource repositories, as usual in AOSP.
 
-NOTE - It's useful to define an environment variable, to refer to the AOSP entry dir. 
+Note - downloading the full AOSP source may take hours to complete, even on a fast connection.
+
+It's also useful to define an environment variable, to refer to the AOSP entry dir. 
 E.g. I downloaded the AOSP source under my local home, in Android/aosp. Then:
 
  export AOSP=~/Android/aosp
-
-Note - downloading the full AOSP source may take hours to complete, even on a fast connection.
 
 -----------------------
 
@@ -43,11 +40,11 @@ ffxx68/Renesas-system_vold           system/vold
 
 -----------------------
 
-4) Notes about projects
+3) Notes about projects
 
-I meant "ffxx68/Renesas-device_emev" to be the "entry point" to ROSP, with the present README explaining the basic steps to build the firmware update package from scratch.
+I meant "ffxx68/Renesas-device_emev" to be the "entry point" to the ROSP, with the present README explaining the basic steps to build the firmware update package from scratch.
 
-As "device/renesas/emev" didn't exist in the AOSP, so these were created from scratch and pushed on the ffxx68 GitHub account.
+As "device/renesas/emev" and "hardware/renesas/emev" didn't exist in the AOSP, these were created from scratch and pushed on the ffxx68 GitHub account.
 
 Others were forked from the corresponding android/platform_... the Gingerbread branch. 
 
@@ -73,7 +70,7 @@ Each projects has a "MyPad" branch, to track ROSP changes.
  
 -----------------------
 
-5) How to pull single projects locally
+4) How to pull single projects locally
 
 As "device/renesas/emev" doesn't exist in AOSP, we have to clone it from our (ffxx68) GitHub:
 
@@ -93,7 +90,7 @@ This way, "git fetch & merge" would merge our GithHub code with latest AOSP vers
 
 -----------------------
 
-6) How to push changes back to GitHub
+5) How to push changes back to GitHub
 
 If you change anything, to push it back onto our GitHub repository you would do:
 
@@ -114,7 +111,7 @@ Use the same group if you think anything in the whole process may be improved. S
 
 -----------------------
 
-7) Building Android
+6) Building Android
 
 Once you have your code, you would build Android with:
 
@@ -149,25 +146,25 @@ Installed file list: out/target/product/emev/installed-files.txt
 
 -----------------------
 
-8) Pulling OMX, SGX, WiFi firmware and libs from device
+8) Getting OMX, SGX, WiFi firmware blobs and libraries
 
 The script
 
  $AOSP/device/renesas/emev/pull_firmware.sh
 
-is needed to pull out of the real device (if you don't have already them) the firmware and libraries managing:
+can be used to pull off the real device the firmware binaries and libraries managing:
 
  - the video encoder/decoder (OMX)
  - 3D-graphics accelerator (SGX)
  - Broadcom WiFi dongle
 
-which are released only as pre-compiled libraries.
+All of these are released only as pre-compiled libraries, source code being proprietary.
 
-The device must have a stock 2.3 Android on board, to pull these file from, and should be running and connected through USB to your build host.
+The device must have a stock 2.3 Android on board (e.g. the "1220" build), to pull these files from, and should be running and connected through USB to your build host.
 
 Try "adb shell" first, to verify if the connection works properly.
 
-The script creats a "firmware" dir, under $AOSP/device/renesas/emev, where it stores all the files.
+The script creats a new "firmware" dir, under $AOSP/device/renesas/emev, to stores the files.
 
 You need to run this script only once, as these files aren't touched by the build procedure.
 
@@ -189,11 +186,15 @@ The script assumes $AOSP is set with the path to aosp top dir.
 
 Then, the u-boot and kernel (uImage) need to be assembled manually into a firmware update SD-card.
 
+Note - The complete bootloader procedure is also described in
+
+ https://github.com/ffxx68/RenesasEV2-bootloader
+
 -----------------------
 
 10) Test with a bootable SD-card
 
-If you wish to test a build without replacing the NAND-resident firmware, refer to project:
+If you wish to test a build without replacing the NAND-resident firmware, refer to the project README at:
 
  https://github.com/ffxx68/Renesas-BootSD
 
