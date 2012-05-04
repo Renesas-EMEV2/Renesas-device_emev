@@ -192,7 +192,21 @@ Note - The complete bootloader procedure is also described in
 
 -----------------------
 
-10) Test with a bootable SD-card
+10) About Google Apps
+
+The AOSP source code comes naked of the most common Google Apps, fond in any tytpical device.
+
+These include Market (now Play), GMail, Maps, etc.
+
+Packages with the .apk of these apps can be found on the net. E.g. see:
+
+ http://wiki.rootzwiki.com/Google_Apps
+
+The pack.sh script includes a copy operation for these, hence it is assumed you have donwloaded them already to some place, but this is NOT a mandatory step, to complete a working build.
+
+-----------------------
+
+11) Testing with a bootable SD-card
 
 If you wish to test a build without replacing the NAND-resident firmware, refer to the project README at:
 
