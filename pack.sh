@@ -3,6 +3,7 @@
 ANDROID_DIR=$AOSP
 WORK_DIR=$ANDROID_DIR
 OBJ_DIR=$ANDROID_DIR
+GAPP_DIR=$ANDROID_DIR/device/renesas/emev/GoogleApps
 
 # Create Userland
 echo ""
@@ -20,6 +21,14 @@ cd ${ANDROID_DIR}/out/target/product/emev/
 cp ./obj/lib/copybit.emxx.so ./system/lib/hw/copybit.emxx.so
 cp ./obj/lib/gralloc.emxx.so ./system/lib/hw/gralloc.emxx.so
 cp ./obj/lib/overlay.emxx.so ./system/lib/hw/overlay.emxx.so
+
+# Adding Google Applications (Market, etc.)
+# The full package can be found, for example, at:
+# http://wiki.rootzwiki.com/Google_Apps#20110828
+if [ ! -d ${WORK_DIR}/android-fs ] ; then
+   cd ${ANDROID_DIR}/out/target/product/emev/
+   cp -r $GAPP_DIR/system .
+fi
 
 # packaging Android file system
 cd ${ANDROID_DIR}/out/target/product/emev/

@@ -28,7 +28,9 @@ PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/emev.kl:system/usr/keylayout/qwerty.kl
 
 PRODUCT_COPY_FILES += \
-	$(LOCAL_PATH)/init.rc:root/init.rc
+	$(LOCAL_PATH)/init.rc:root/init.rc \
+	$(LOCAL_PATH)/init.emxx.rc:root/init.emxx.rc \
+	$(LOCAL_PATH)/init.emev.sh:system/etc/init.emev.sh
 
 #$(call inherit-product, frameworks/base/data/sounds/OriginalAudio.mk)
 

@@ -1,0 +1,29 @@
+on boot
+# We use google DNS for case that DNS can not be obtain.
+    setprop net.dns1 8.8.8.8
+
+    setprop ro.radio.use-ppp no
+    setprop ro.radio.noril yes
+    setprop ro.showcursor 1
+    chown system system /sys/class/leds/led1/brightness
+    chown system system /sys/class/leds/led2/brightness
+
+service emev-setup /system/etc/init.emev.sh
+    oneshot
+
+service wpa_supplicant /system/bin/wpa_supplicant \
+    -Dwext -iwlan0 -c/data/misc/wifi/wpa_supplicant.conf
+# wpa_supplicant will force to wifi(user and group)
+#    user wifi
+#    group wifi inet keystore
+    socket wpa_wlan0 dgram 660 wifi wifi
+    disabled
+    oneshot
+
+service dhcpcd_wlan0 /system/bin/dhcpcd wlan0 -o domain_name_servers -ABKL
+    disabled
+    oneshot
+
+#init data to ts driver, include ts calibration, gsensor calibration ...
+service init_data /system/bin/logwrapper /system/bin/init_data
+    oneshot
