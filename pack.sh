@@ -1,6 +1,7 @@
 #!/bin/sh
 
 ANDROID_DIR=$AOSP
+KERNEL_DIR=$KERNEL
 WORK_DIR=$ANDROID_DIR
 OBJ_DIR=$ANDROID_DIR
 GAPP_DIR=$ANDROID_DIR/device/renesas/emev/GoogleApps
@@ -47,6 +48,10 @@ mv root/* ./
 
 # Copying builtin firmware
 cp -r ${ANDROID_DIR}/device/renesas/emev/firmware/* ./
+
+# Copying KERNEL modules
+cp ${KERNEL}/arch/arm/mach-emxx/inter_dsp.ko ./lib/modules
+cp ${KERNEL}/arch/arm/mach-emxx/em_ave.ko ./lib/modules
 
 rmdir root
 chmod +r system/usr/keychars/*

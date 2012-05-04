@@ -2,6 +2,7 @@
 
 SGX_FILES=${AOSP}/device/renesas/emev/firmware
 OMF_FILES=${AOSP}/device/renesas/emev/firmware
+BCM_FILES=${AOSP}/device/renesas/emev/firmware
 
 mkdir -p ${SGX_FILES}/lib/modules
 mkdir -p ${SGX_FILES}/system/etc/
@@ -52,3 +53,7 @@ adb pull /system/lib/omf_mc_m2vd.so ${OMF_FILES}/system/lib/
 adb pull /system/lib/omf_mc_vc1d.so ${OMF_FILES}/system/lib/
 
 cp ${OMF_FILES}/system/lib/libomf_manager.so ${OMF_FILES}/lib/
+
+mkdir -p ${BCM_FILES}/lib/
+adb pull /lib/modules/wlan.ko ${BCM_FILES}/lib/modules/
+
