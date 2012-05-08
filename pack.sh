@@ -26,7 +26,7 @@ cp ./obj/lib/overlay.emxx.so ./system/lib/hw/overlay.emxx.so
 # Adding Google Applications (Market, etc.)
 # The full package can be found, for example, at:
 # http://wiki.rootzwiki.com/Google_Apps#20110828
-if [ ! -d ${WORK_DIR}/android-fs ] ; then
+if [ ! -d ${GAPP_DIR}/system ] ; then
    cd ${ANDROID_DIR}/out/target/product/emev/
    cp -r $GAPP_DIR/system .
 fi
@@ -51,7 +51,7 @@ cp -r ${ANDROID_DIR}/device/renesas/emev/firmware/* ./
 
 # Copying KERNEL modules
 cp ${KERNEL}/arch/arm/mach-emxx/inter_dsp.ko ./lib/modules
-cp ${KERNEL}/arch/arm/mach-emxx/em_ave.ko ./lib/modules
+cp ${KERNEL}/drivers/ave/em_ave.ko ./lib/modules
 
 rmdir root
 chmod +r system/usr/keychars/*

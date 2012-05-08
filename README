@@ -182,7 +182,7 @@ collects the complete Android file system and the firmware files (from pull_firm
 
  $AOSP/android-fs4.tar.gz
 
-The script assumes $AOSP is set with the path to aosp top dir.
+The script assumes $AOSP and $KERNEL variables are set, pointing to the aosp and kernel source root dirs respectively.
 
 Then, the u-boot and kernel (uImage) need to be assembled manually into a firmware update SD-card.
 
@@ -198,11 +198,13 @@ The AOSP source code comes naked of the most common Google Apps, fond in any tyt
 
 These include Market (now Play), GMail, Maps, etc.
 
-Packages with the .apk of these apps can be found on the net. E.g. see:
+Packages with these apps can be found on the net. E.g. see:
 
  http://wiki.rootzwiki.com/Google_Apps
 
-The pack.sh script includes a copy operation for these, hence it is assumed you have donwloaded them already to some place, but this is NOT a mandatory step, to complete a working build.
+The pack.sh script assumes that you have downloaded these separately into a directory named "GoogleApps" under $AOSP/device/renesas/emev
+
+Note - this is NOT a mandatory step, to complete a working build.
 
 -----------------------
 
