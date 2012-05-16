@@ -48,7 +48,14 @@ As "device/renesas/emev" and "hardware/renesas/emev" didn't exist in the AOSP, t
 
 Others were forked from the corresponding android/platform_... the Gingerbread branch. 
 
-The procedure I followed, for each project was:
+The "frameworks/base" and "build" were modified only to allow compilation on Ubuntu 11.10 64-bit, after these suggestions:
+
+ http://groups.google.com/group/android-building/browse_thread/thread/7b7d307c8038aab9
+ http://code.google.com/p/android/issues/detail?id=20795
+
+Each projects has a "MyPad" branch, to track ROSP changes.
+
+NOTE - The procedure I followed, for each project was the following:
 
  - In GitHub, fork android/platform_<abc>, Gingerbread branch, to ffxx68
  - In GitHub, admin->rename ffxx68/platform_<abc> to ffxx68/Renesas-<abc>
@@ -59,38 +66,9 @@ The procedure I followed, for each project was:
  - git remote add github git@github.com:ffxx68/Renesas-<abc>.git
  - git push -u github MyPad
 
-If any other project requires customization, apart from the above ones, I can create another project on ffxx68 in the same way.
-
-The "frameworks/base" and "build" were modified only to allow compilation on Ubuntu 11.10 64-bit, after these suggestions:
-
- http://groups.google.com/group/android-building/browse_thread/thread/7b7d307c8038aab9
- http://code.google.com/p/android/issues/detail?id=20795
-
-Each projects has a "MyPad" branch, to track ROSP changes.
- 
 -----------------------
 
-4) How to pull single projects locally
-
-As "device/renesas/emev" doesn't exist in AOSP, we have to clone it from our (ffxx68) GitHub:
-
- cd $AOSP
- git clone git@github.com:Renesas-device_emev.git device/renesas/emev
-
-The others would be pulled locally from our GitHub projects, i.e.
-
- cd $AOSP/<Path>
- git branch MyCustomPad
- git checkout MyCustomPad
- git remote add github git@github.com:<Project>.git
- git fetch github
- git merge github/MyPad
-
-This way, "git fetch & merge" would merge our GithHub code with latest AOSP version too
-
------------------------
-
-5) How to push changes back to GitHub
+4) How to push changes back to GitHub
 
 If you change anything, to push it back onto our GitHub repository you would do:
 
@@ -108,6 +86,31 @@ If you find it easier, use our ROSP discussion group to let us have your patches
  https://groups.google.com/forum/#!forum/renesas-emev-osp
  
 Use the same group if you think anything in the whole process may be improved. Suggestions are welcome!
+
+-----------------------
+
+5) Getting OMX and SGX firmware blobs and libraries
+
+The script
+
+ $AOSP/device/renesas/emev/pull_firmware.sh
+
+can be used to pull off the real device the firmware binaries and libraries managing:
+
+ - the video encoder/decoder (OMX)
+ - 3D-graphics accelerator (SGX)
+
+These are released only as pre-compiled libraries, source code being proprietary.
+
+The device must have a stock 2.3 Android on board (e.g. the "1220" build), to pull these files from, and should be running and connected through USB to your build host.
+
+Try "adb shell" first, to verify if the connection works properly.
+
+The script puts files in sgx/ and omf/ found under $AOSP/device/renesas/emev. The Android build process then moves files under the epxected target directories.
+
+You need to run this script only once, as these files aren't touched by the build procedure.
+
+The script assumes $AOSP is set with the path to aosp top dir.
 
 -----------------------
 
@@ -140,59 +143,29 @@ BUILD_ID=GRK39F
 
  time make -j2 showcommands 2>&1 | tee make.log
 ...
-(took about 1-1.5 hours to make, on my 2x2.4GHz core, 4 Gb RAM Ubutnu VM)
+(took about 1-1.5 hours to make, on my 2x2.4GHz, 4 Gb Ubuntu VM)
 ...
 Installed file list: out/target/product/emev/installed-files.txt
 
 -----------------------
 
-8) Getting OMX, SGX, WiFi firmware blobs and libraries
-
-The script
-
- $AOSP/device/renesas/emev/pull_firmware.sh
-
-can be used to pull off the real device the firmware binaries and libraries managing:
-
- - the video encoder/decoder (OMX)
- - 3D-graphics accelerator (SGX)
- - Broadcom WiFi dongle
-
-All of these are released only as pre-compiled libraries, source code being proprietary.
-
-The device must have a stock 2.3 Android on board (e.g. the "1220" build), to pull these files from, and should be running and connected through USB to your build host.
-
-Try "adb shell" first, to verify if the connection works properly.
-
-The script creats a new "firmware" dir, under $AOSP/device/renesas/emev, to stores the files.
-
-You need to run this script only once, as these files aren't touched by the build procedure.
-
-The script assumes $AOSP is set with the path to aosp top dir.
-
------------------------
-
-9) Packaging files
+7) Packaging files
 
 The script
 
  $AOSP/device/renesas/emev/pack.sh
 
-collects the complete Android file system and the firmware files (from pull_firmware.sh) and then packs them in 
+collects the complete Android file system and then packs it into: 
 
  $AOSP/android-fs4.tar.gz
 
 The script assumes $AOSP and $KERNEL variables are set, pointing to the aosp and kernel source root dirs respectively.
 
-Then, the u-boot and kernel (uImage) need to be assembled manually into a firmware update SD-card.
-
-Note - The complete bootloader procedure is also described in
-
- https://github.com/ffxx68/RenesasEV2-bootloader
+Then, the u-boot and kernel (uImage) need to be assembled manually into a firmware update SD-card. Replace the files in a firmware update package from the vendor, or follow the instructions to create a bootable SD-card, from https://github.com/ffxx68/Renesas-BootSD
 
 -----------------------
 
-10) About Google Apps
+8) About Google Apps
 
 The AOSP source code comes naked of the most common Google Apps, fond in any tytpical device.
 
@@ -208,11 +181,12 @@ Note - this is NOT a mandatory step, to complete a working build.
 
 -----------------------
 
-11) Testing with a bootable SD-card
+9) The bootloader 
 
-If you wish to test a build without replacing the NAND-resident firmware, refer to the project README at:
+The internals of the bootloader and the corresponding source code is found at:
 
- https://github.com/ffxx68/Renesas-BootSD
+ https://github.com/ffxx68/RenesasEV2-bootloader
 
- 
+The code is meant for a develpment board and it isn't tested yet for being used in a real tablet, athough the differences should be minor. For the time being, a "stock" bootlader (from the tablet vendor) is being used for our tests, until the Open Sorce bootloader is ported and tested for tablets.
+
 

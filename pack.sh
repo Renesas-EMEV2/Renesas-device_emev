@@ -46,10 +46,8 @@ mv data root
 mv system root
 mv root/* ./
 
-# Copying builtin firmware
-cp -r ${ANDROID_DIR}/device/renesas/emev/firmware/* ./
-
 # Copying KERNEL modules
+cd ${WORK_DIR}/android-fs
 cp ${KERNEL}/arch/arm/mach-emxx/inter_dsp.ko ./lib/modules
 cp ${KERNEL}/drivers/ave/em_ave.ko ./lib/modules
 
