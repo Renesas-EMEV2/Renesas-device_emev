@@ -3,7 +3,7 @@ LOCAL_PATH := $(call my-dir)
 # Use "../pull_firmware.sh" before build, to pull files off a working device
 
 # OMF files 
-xPRODUCT_COPY_FILES += \
+PRODUCT_COPY_FILES += \
        $(LOCAL_PATH)/pvplayer.cfg:system/etc/pvplayer.cfg \
        $(LOCAL_PATH)/libomf_manager.so:system/lib/libomf_manager.so \
        $(LOCAL_PATH)/libomf_manager.so:root/lib/libomf_manager.so \
