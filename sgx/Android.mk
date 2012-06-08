@@ -19,8 +19,8 @@ PRODUCT_COPY_FILES += \
        $(LOCAL_PATH)/libsrv_init.so:system/vendor/lib/libsrv_init.so \
        $(LOCAL_PATH)/libusc.so:system/vendor/lib/libusc.so \
        $(LOCAL_PATH)/libpvr2d.so:system/vendor/lib/libpvr2d.so \
-       $(LOCAL_PATH)/libpvrANDROID_WSEGL.so:system/vendor/lib/libpvrANDROID_WSEGL.so \
-       $(LOCAL_PATH)/gralloc.emxx.so:system/vendor/lib/hw/gralloc.emxx.so
+       $(LOCAL_PATH)/libpvrANDROID_WSEGL.so:system/vendor/lib/libpvrANDROID_WSEGL.so 
+#       $(LOCAL_PATH)/gralloc.emxx.so:system/vendor/lib/hw/gralloc.emxx.so
 
 # SGX Execution files
 PRODUCT_COPY_FILES += \
