@@ -26,7 +26,7 @@ cp ./obj/lib/overlay.emxx.so ./system/lib/hw/overlay.emxx.so
 # Adding Google Applications (Market, etc.)
 # The full package can be found, for example, at:
 # http://wiki.rootzwiki.com/Google_Apps#20110828
-if [ ! -d ${GAPP_DIR}/system ] ; then
+if [ -d ${GAPP_DIR}/system ] ; then
    cd ${ANDROID_DIR}/out/target/product/emev/
    cp -r $GAPP_DIR/system .
 fi
@@ -45,13 +45,15 @@ tar zxf ${ANDROID_DIR}/tmp-android.tar.gz
 mv data root
 mv system root
 mv root/* ./
+rmdir root
 
 # Copying KERNEL modules
 cd ${WORK_DIR}/android-fs
-cp ${KERNEL}/arch/arm/mach-emxx/inter_dsp.ko ./lib/modules
-cp ${KERNEL}/drivers/ave/em_ave.ko ./lib/modules
+cp ${KERNEL}/arch/arm/mach-emxx/inter_dsp.ko ./lib/modules/inter_dsp.ko
+cp ${KERNEL}/drivers/ave/em_ave.ko ./lib/modules/em_ave.ko
 
-rmdir root
+# Wrap up
+cd ${WORK_DIR}/android-fs
 chmod +r system/usr/keychars/*
 sudo chown -R 1000:1000 ./
 sudo tar zcf ${OBJ_DIR}/android-fs4.tar.gz ./
