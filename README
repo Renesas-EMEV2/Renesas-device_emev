@@ -19,14 +19,34 @@ The rest are pulled off the standard googlesource repositories, as usual in AOSP
 
 Note - downloading the full AOSP source may take hours to complete, even on a fast connection.
 
-It's also useful to define an environment variable, to refer to the AOSP entry dir. 
-E.g. I downloaded the AOSP source under my local home, in Android/aosp. Then:
+It's also useful to define an environment variable, to refer to the AOSP entry dir. E.g. I downloaded the AOSP source under my local home, in Android/aosp. Then I set:
 
  export AOSP=~/Android/aosp
 
 -----------------------
 
-2) The following customized projects make up our ROSP:
+2) Prepare the build environment
+
+You need to follow the suggestions found at
+
+ http://source.android.com/source/initializing.html
+
+to have your host environment ready for your builds, but sometimes that's not enough.
+
+For example, my host is an Ubuntu 12.04 and, even installing the suggested packages, I got a couple of errors during my makes, so that I had to install these too:
+
+ sudo apt-get install lib32ncurses5-dev
+ sudo apt-get install lib32z1-dev
+
+(I found these searching on Google for the error codes + "Ubuntu 12")
+
+Another very useful tip, for Ubuntu and Linux in general, in roder to use 'adb' seamlessly with your device, is the one I found here:
+
+ http://ptspts.blogspot.co.uk/2011/10/how-to-fix-adb-no-permissions-error-on.html
+
+-----------------------
+
+3) The following customized projects make up our ROSP:
 
 Project                              Path                  
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -40,7 +60,7 @@ ffxx68/Renesas-system_vold           system/vold
 
 -----------------------
 
-3) Notes about projects
+4) Notes about projects
 
 I meant "ffxx68/Renesas-device_emev" to be the "entry point" to the ROSP, with the present README explaining the basic steps to build the firmware update package from scratch.
 
@@ -68,7 +88,7 @@ NOTE - The procedure I followed, for each project was the following:
 
 -----------------------
 
-4) How to push changes back to GitHub
+5) How to push changes back to GitHub
 
 If you change anything, to push it back onto our GitHub repository you would do:
 
@@ -89,7 +109,7 @@ Use the same group if you think anything in the whole process may be improved. S
 
 -----------------------
 
-5) Getting OMX and SGX firmware blobs and libraries
+6) Getting OMX and SGX firmware blobs and libraries
 
 The script
 
@@ -106,7 +126,7 @@ The device must have a stock 2.3 Android on board (e.g. the "1220" build), to pu
 
 Try "adb shell" first, to verify if the connection works properly.
 
-The script puts files in sgx/ and omf/ found under $AOSP/device/renesas/emev. The Android build process then moves files under the epxected target directories.
+The script puts files in sgx/ and omf/ under $AOSP/device/renesas/emev. The Android build process then moves files under the expected target directories.
 
 You need to run this script only once, as these files aren't touched by the build procedure.
 
@@ -114,7 +134,7 @@ The script assumes $AOSP is set with the path to aosp top dir.
 
 -----------------------
 
-6) Building Android
+7) Building Android
 
 Once you have your code, you would build Android with:
 
@@ -143,29 +163,35 @@ BUILD_ID=GRK39F
 
  time make -j2 showcommands 2>&1 | tee make.log
 ...
-(took about 1-1.5 hours to make, on my 2x2.4GHz, 4 Gb Ubuntu VM)
+(took about 1-1.5 hours to make, on my 2x2.4GHz, 4 Gb RAM Ubuntu)
 ...
 Installed file list: out/target/product/emev/installed-files.txt
 
 -----------------------
 
-7) Packaging files
+8) Packaging files
 
 The script
 
  $AOSP/device/renesas/emev/pack.sh
 
-collects the complete Android file system and then packs it into: 
+collects the complete Android file system, kernel image, device drivers, as well as bootloader binaries, and put them into:
 
- $AOSP/android-fs4.tar.gz
+ $AOSP/device/renesas/emev/pack
 
-The script assumes $AOSP and $KERNEL variables are set, pointing to the aosp and kernel source root dirs respectively.
+The content of this directory then needs to be transferred into the root folder of an SD-card, (max 2Gb size allowed) formatted as FAT16 or FAT32, and the tablet started with teh Vol+ & Power to replace internal NAND firmware.
 
-Then, the u-boot and kernel (uImage) need to be assembled manually into a firmware update SD-card. Replace the files in a firmware update package from the vendor, or follow the instructions to create a bootable SD-card, from https://github.com/ffxx68/Renesas-BootSD
+The script assumes $AOSP and $KERNEL variables are set, pointing to the properly aosp and kernel of course. Our kernel source code is found at:
+
+ https://github.com/ffxx68/RenesasEV2-BSPGB-Kernel
+
+NOTE - Part of the firmware update binaries have been copied from a stock Livall upgrade package. As two variants of the Livall tablet board exists, with two or four DDR RAM chips, the corresponding bootloader variants are found in 2DDR and 4DDR subdirs. Use (try) the ones that fit your board, replacing them directly in the SD-card before performing the upgrade.
+
+Alternatively, for quicker test cycles, you could follow the instructions to create a bootable SD-card, as explained in https://github.com/ffxx68/Renesas-BootSD.
 
 -----------------------
 
-8) About Google Apps
+9) About Google Apps
 
 The AOSP source code comes naked of the most common Google Apps, fond in any tytpical device.
 
@@ -181,12 +207,12 @@ Note - this is NOT a mandatory step, to complete a working build.
 
 -----------------------
 
-9) The bootloader 
+10) The bootloader 
 
 The internals of the bootloader and the corresponding source code is found at:
 
  https://github.com/ffxx68/RenesasEV2-bootloader
 
-The code is meant for a develpment board and it isn't tested yet for being used in a real tablet, athough the differences should be minor. For the time being, a "stock" bootlader (from the tablet vendor) is being used for our tests, until the Open Sorce bootloader is ported and tested for tablets.
+More info is found there, in README-Renesas. The code is meant for a develpment board and it isn't tested yet for being used in a real tablet, athough the differences should be minor. For the time being, a "stock" bootlader (from the tablet vendor) is being used for our tests, until the Open Sorce bootloader is ported and tested for tablets.
 
 

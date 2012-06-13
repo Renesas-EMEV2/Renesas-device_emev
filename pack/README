@@ -1,0 +1,14 @@
+
+ Bootable SD-Card
+
+---------------------------------------------------
+
+This is how to set up an SD-Card that can be used to boot Android for testing, without disrupting the internal NAND installation.
+
+1) Prepare a FAT-formatted SD-Card, not larger than 2Gb
+2) Copy there all the files from this project
+3) Copy a file "fs.tar.gz" with a tar.gz of the complete Android file system 
+4) Copy a file "uImage4" with the kernel image
+5) Put the SD-Card in the renesas tablet and start it with Volume+ & Power, as if you were updating firmware
+
+

@@ -3,7 +3,7 @@
 ANDROID_DIR=$AOSP
 KERNEL_DIR=$KERNEL
 WORK_DIR=$ANDROID_DIR
-OBJ_DIR=$ANDROID_DIR
+OBJ_DIR=$ANDROID_DIR/device/renesas/emev/pack
 GAPP_DIR=$ANDROID_DIR/device/renesas/emev/GoogleApps
 
 # Create Userland
@@ -47,13 +47,16 @@ mv system root
 mv root/* ./
 rmdir root
 
-# Copying KERNEL modules
+# Copying KERNEL drivers
 cd ${WORK_DIR}/android-fs
 cp ${KERNEL}/arch/arm/mach-emxx/inter_dsp.ko ./lib/modules/inter_dsp.ko
 cp ${KERNEL}/drivers/ave/em_ave.ko ./lib/modules/em_ave.ko
 
-# Wrap up
+# Create android fs tar.gz
 cd ${WORK_DIR}/android-fs
 chmod +r system/usr/keychars/*
 sudo chown -R 1000:1000 ./
 sudo tar zcf ${OBJ_DIR}/android-fs4.tar.gz ./
+
+# Kernel image
+cp ${KERNEL}/arch/arm/boot/uImage ${OBJ_DIR}/uImage4
