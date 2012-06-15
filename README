@@ -27,26 +27,81 @@ It's also useful to define an environment variable, to refer to the AOSP entry d
 
 2) Prepare the build environment
 
-You need to follow the suggestions found at
+2.1) Install the mandatory packages
+
+This is by far the less easy section o describe in general, as it may depend on the host system the build environment is based upon. Luckily, you need to fix this up only once (until you decide to migrate the project to a new host):
+
+You need at least to install the AOSP prerequisite packages, as said in:
 
  http://source.android.com/source/initializing.html
 
-to have your host environment ready for your builds, but sometimes that's not enough.
+but sometimes that's not enough. For example, a basic Ubuntu setup is normally missing the 'git' tool, which then needs to be installed with:
 
-For example, my host is an Ubuntu 12.04 and, even installing the suggested packages, I got a couple of errors during my makes, so that I had to install these too:
+ sudo apt-get install git
+
+2.2) Setting up JAVA 
+
+We need JDK version 6 to build Gingerbread. The Open-JDK is installed with:
+
+ sudo apt-get install openjdk-6-jdk
+ 
+On the other hand, the suggested installation of Oracle JDK does not work!
+
+If you have both Open-JDK and Oracle-JDK installed, you can choose which one to use executing:
+
+ sudo update-alternatives --config java
+ sudo update-alternatives --config javac
+ sudo update-alternatives --config jar
+ sudo update-alternatives --config javah
+ sudo update-alternatives --config javadoc
+
+and select the Open-JDK version for each of these, as a build using Oracle JDK failed to boot...
+
+See also here:
+
+ https://help.ubuntu.com/community/Java
+
+2.3) Other missing stuff
+
+Also, for an Ubuntu 12.04 host, even installing all the suggested packages, I got a couple of errors during make, so that I had to install these ones as well:
 
  sudo apt-get install lib32ncurses5-dev
  sudo apt-get install lib32z1-dev
 
-(I found these searching on Google for the error codes + "Ubuntu 12")
+I found these searching on Google for the error codes + "Ubuntu 12", so please try the same before asking...
 
-Another very useful tip, for Ubuntu and Linux in general, in roder to use 'adb' seamlessly with your device, is the one I found here:
+To compile kernel images I also missed this:
+
+ sudo apt-get install uboot-mkimage
+
+Another useful tip, for Ubuntu and Linux in general, in order to use 'adb' seamlessly with your device, is the one I found here:
 
  http://ptspts.blogspot.co.uk/2011/10/how-to-fix-adb-no-permissions-error-on.html
 
 -----------------------
 
-3) The following customized projects make up our ROSP:
+3) Generating the Signing Keys for this project
+
+I'm not sure about the aim of these steps are, or if they're actually required, but I did them following a tutorial I found about Android porting... (http://marakana.com/static/courseware/android/Remixing_Android/index.html):
+
+ SIGNER="/C=IT/ST=RM/L=Rome/O=ffxx68/OU=Android/CN=Android Platform Signer/emailAddress=ffumi68@gmail.com"
+ cd $AOSP
+ rm build/target/product/security/*.p*
+ echo | development/tools/make_key build/target/product/security/platform "$SIGNER"
+ echo | development/tools/make_key build/target/product/security/shared "$SIGNER"
+ echo | development/tools/make_key build/target/product/security/media "$SIGNER"
+ echo | development/tools/make_key build/target/product/security/testkey "$SIGNER"
+
+With these to verify that all went fine:
+ 
+ ls -1 build/target/product/security/*.p*
+ openssl x509 -noout -subject -issuer -in  build/target/product/security/platform.x509.pem
+
+------------------------
+
+4) Notes about projects
+
+The following customized projects make up our ROSP:
 
 Project                              Path                  
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -57,10 +112,6 @@ ffxx68/Renesas-frameworks_base       frameworks/base
 ffxx68/Renesas-build                 build
 ffxx68/Renesas-system_core           system/core
 ffxx68/Renesas-system_vold           system/vold
-
------------------------
-
-4) Notes about projects
 
 I meant "ffxx68/Renesas-device_emev" to be the "entry point" to the ROSP, with the present README explaining the basic steps to build the firmware update package from scratch.
 
@@ -75,7 +126,7 @@ The "frameworks/base" and "build" were modified only to allow compilation on Ubu
 
 Each projects has a "MyPad" branch, to track ROSP changes.
 
-NOTE - The procedure I followed, for each project was the following:
+NOTE 1 - The procedure I followed, for each project was the following:
 
  - In GitHub, fork android/platform_<abc>, Gingerbread branch, to ffxx68
  - In GitHub, admin->rename ffxx68/platform_<abc> to ffxx68/Renesas-<abc>
@@ -86,17 +137,29 @@ NOTE - The procedure I followed, for each project was the following:
  - git remote add github git@github.com:ffxx68/Renesas-<abc>.git
  - git push -u github MyPad
 
+NOTE 2 - while testing git with github, I met this error:
+
+ ssh -vT git@github.com
+ ...
+ Permission denied (publickey).
+
+In order to solve this, I followed the points explained at:
+
+ https://help.github.com/articles/generating-ssh-keys
+ https://help.github.com/articles/error-permission-denied-publickey
+
 -----------------------
 
 5) How to push changes back to GitHub
 
-If you change anything, to push it back onto our GitHub repository you would do:
+Altough it is off topic to describe here how to use git, or GitHub in general (find docs online), if you change anything, to push it back onto our GitHub repository you would do:
 
  git add <whatever file you changed>
  git commit -m "Leave your commit comments here"
  git push -u github MyPad
 
 This woud require you to have an account registered on GitHub, where you may have forked the project to.
+
 Find help oh GitHub, for admin and access details. E.g.
 
  http://help.github.com/send-pull-requests/
@@ -105,7 +168,7 @@ If you find it easier, use our ROSP discussion group to let us have your patches
 
  https://groups.google.com/forum/#!forum/renesas-emev-osp
  
-Use the same group if you think anything in the whole process may be improved. Suggestions are welcome!
+Use the same group if you think anything in the whole process may be improved. Suggestions are alway welcome!
 
 -----------------------
 
