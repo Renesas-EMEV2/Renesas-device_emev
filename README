@@ -17,9 +17,19 @@ so, the "repo init" step should be made using this manifest:
 In .repo/manifests/deafult.xml, customized projects are linked to the corresponding ffxx68 repositories, in place of the default Android ones.
 The rest are pulled off the standard googlesource repositories, as usual in AOSP.
 
-Note - downloading the full AOSP source may take hours to complete, even on a fast connection.
+NOTE 1 - Downloading the full AOSP source may take hours to complete, even on a fast connection.
 
-It's also useful to define an environment variable, to refer to the AOSP entry dir. E.g. I downloaded the AOSP source under my local home, in Android/aosp. Then I set:
+NOTE 2 - As our custom manifest relies upon github, if you meet this error:
+
+ ...
+ Permission denied (publickey).
+
+followed the points explained below to generate an SSH-key:
+
+ https://help.github.com/articles/generating-ssh-keys
+
+It's also useful to define an environment variable, to later refer to the AOSP work dir. 
+E.g. I downloaded the AOSP source under my local home, in Android/aosp. Then I set:
 
  export AOSP=~/Android/aosp
 
@@ -136,17 +146,6 @@ NOTE 1 - The procedure I followed, for each project was the following:
  - Applied here whatever customization is needed for the Renesas EMEV
  - git remote add github git@github.com:ffxx68/Renesas-<abc>.git
  - git push -u github MyPad
-
-NOTE 2 - while testing git with github, I met this error:
-
- ssh -vT git@github.com
- ...
- Permission denied (publickey).
-
-In order to solve this, I followed the points explained at:
-
- https://help.github.com/articles/generating-ssh-keys
- https://help.github.com/articles/error-permission-denied-publickey
 
 -----------------------
 
