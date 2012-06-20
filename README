@@ -19,15 +19,6 @@ The rest are pulled off the standard googlesource repositories, as usual in AOSP
 
 NOTE 1 - Downloading the full AOSP source may take hours to complete, even on a fast connection.
 
-NOTE 2 - As our custom manifest relies upon github, if you meet this error:
-
- ...
- Permission denied (publickey).
-
-followed the points explained below to generate an SSH-key:
-
- https://help.github.com/articles/generating-ssh-keys
-
 It's also useful to define an environment variable, to later refer to the AOSP work dir. 
 E.g. I downloaded the AOSP source under my local home, in Android/aosp. Then I set:
 
@@ -186,22 +177,28 @@ Try "adb shell" first, to verify if the connection works properly.
 
 The script puts files in sgx/ and omf/ under $AOSP/device/renesas/emev. The Android build process then moves files under the expected target directories.
 
-You need to run this script only once, as these files aren't touched by the build procedure.
-
 The script assumes $AOSP is set with the path to aosp top dir.
 
 NOTE - if you've just downlaoded AOSP sources, you won't have adb, which is an out-product of the build. 
-If you don't have adb you can't run this script and hence you can't complete the build. So, first time you need to buildd the AOSP "generic", just to get adb:
+If you don't have adb you can't run this script and hence you can't complete the build. So, first time you need to build skipping the OMF and SGX stuff.
+You can do this renaming the makefiles:
 
- cd $AOSP
- . ./build/envsetup.sh
- lunch 1
- make
- ...
+ cd $AOSP/devive/renesas/emev
+ mv omf/Android.mk omf/Android.mx
+ mv sgx/Android.mk sgx/Android.mx
+
+and build (see below). Then restore them after first build:
+
+ mv omf/Android.mx omf/Android.mk
+ mv sgx/Android.mx sgx/Android.mk
+
+run pull_firmware.sh and build once again.
 
 Another useful tip, for Ubuntu and Linux in general, in order to use 'adb' seamlessly with your device, is this:
 
  http://ptspts.blogspot.co.uk/2011/10/how-to-fix-adb-no-permissions-error-on.html
+
+All of the above is (luckly) required only once, as these files aren't touched by the build procedure.
 
 -----------------------
 
