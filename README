@@ -84,10 +84,6 @@ To compile kernel images I also missed this:
 
  sudo apt-get install uboot-mkimage
 
-Another useful tip, for Ubuntu and Linux in general, in order to use 'adb' seamlessly with your device, is the one I found here:
-
- http://ptspts.blogspot.co.uk/2011/10/how-to-fix-adb-no-permissions-error-on.html
-
 -----------------------
 
 3) Generating the Signing Keys for this project
@@ -193,6 +189,19 @@ The script puts files in sgx/ and omf/ under $AOSP/device/renesas/emev. The Andr
 You need to run this script only once, as these files aren't touched by the build procedure.
 
 The script assumes $AOSP is set with the path to aosp top dir.
+
+NOTE - if you've just downlaoded AOSP sources, you won't have adb, which is an out-product of the build. 
+If you don't have adb you can't run this script and hence you can't complete the build. So, first time you need to buildd the AOSP "generic", just to get adb:
+
+ cd $AOSP
+ . ./build/envsetup.sh
+ lunch 1
+ make
+ ...
+
+Another useful tip, for Ubuntu and Linux in general, in order to use 'adb' seamlessly with your device, is this:
+
+ http://ptspts.blogspot.co.uk/2011/10/how-to-fix-adb-no-permissions-error-on.html
 
 -----------------------
 
