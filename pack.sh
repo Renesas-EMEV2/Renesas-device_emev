@@ -2,18 +2,17 @@
 
 ANDROID_DIR=$AOSP
 KERNEL_DIR=$KERNEL
-WORK_DIR=$ANDROID_DIR
+WORK_DIR=$ANDROID_DIR/device/renesas/emev/tmp
 OBJ_DIR=$ANDROID_DIR/device/renesas/emev/pack
 GAPP_DIR=$ANDROID_DIR/device/renesas/emev/GoogleApps
 
-# Create Userland
-echo ""
-echo "-----------------------"
-echo "- userland deployment -"
-echo "-----------------------"
+echo "Creating Android fs..."
+if [ ! -d ${WORK_DIR} ] ; then
+   mkdir ${WORK_DIR}
+fi
 
 # cleanup
-rm -f ${ANDROID_DIR}/tmp-android.tar.gz 
+rm -f ${WORK_DIR}/tmp-android.tar.gz 
 rm -f ${OBJ_DIR}/android-fs4.tar.gz
 sudo rm -rf ${WORK_DIR}/android-fs
 
@@ -34,14 +33,14 @@ fi
 # packaging Android file system
 cd ${ANDROID_DIR}/out/target/product/emev/
 cp ${ANDROID_DIR}/device/renesas/emev/initlogo.rle ./root/
-tar zcf ${ANDROID_DIR}/tmp-android.tar.gz system data root
+tar zcf ${WORK_DIR}/tmp-android.tar.gz system data root
 
 if [ ! -d ${WORK_DIR}/android-fs ] ; then
   cd ${WORK_DIR}
   mkdir android-fs
 fi
 cd ${WORK_DIR}/android-fs
-tar zxf ${ANDROID_DIR}/tmp-android.tar.gz
+tar zxf ${WORK_DIR}/tmp-android.tar.gz
 mv data root
 mv system root
 mv root/* ./
