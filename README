@@ -1,5 +1,7 @@
  Renesas EMEV Open Source Project (ROSP)
 
+Discuss about it on : https://groups.google.com/forum/?fromgroups#!forum/renesas-emev-osp
+
 -----------------------
 
 1) Download full AOSP source code following the steps in:
@@ -12,7 +14,7 @@ A customized version of the AOSP 2.3.6_r1 manifest can be found at:
 
 so, the "repo init" step should be made using this manifest:
 
- repo init -u git@github.com:ffxx68/Renesas-manifest -b android-2.3.6_r1
+ repo init -u https://github.com/ffxx68/Renesas-manifest.git -b MyPad
 
 In .repo/manifests/deafult.xml, customized projects are linked to the corresponding ffxx68 repositories, in place of the default Android ones.
 The rest are pulled off the standard googlesource repositories, as usual in AOSP.
