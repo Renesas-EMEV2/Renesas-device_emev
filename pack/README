@@ -1,0 +1,25 @@
+
+How to prepare an SD-Card for firmware update
+
+1) Prepare a FAT-formatted SD-Card (should not be larger than 2Gb).
+2) Copy onto SD card all the files from this directory
+3) Put the SD-Card in the tablet and start it with Volume+ & Power, to update firmware
+
+NOTES
+
+- Different kernel images are provided:
+
+ uImage4_ROSP_Livall
+ uImage4_ROSP_PixCir
+ uImage4_ROSP_Goodix
+
+Replace uImage4 with any of these for testing, if update doesn't work with your tablet.
+
+"PixCir" and "Goodix" are different touchscreen managers, for different tablet boards.
+"Livall" is the stock kernel from Livall tablet manufacturer.
+
+- Different u-boot files are found in from 2DDR/ or 4DDR/, for different tablet boards as well.
+
+- Android WiFi doesn't work yet in this version. Enabling WiFi can make system reboot.
+
+
