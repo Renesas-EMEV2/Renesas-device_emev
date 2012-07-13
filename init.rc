@@ -90,12 +90,23 @@ loglevel 3
     write /dev/cpuctl/bg_non_interactive/cpu.shares 52
 
 on fs
-# mount mtd partitions
-    # Mount /system rw first to give the filesystem a chance to save a checkpoint
-    mount yaffs2 mtd@system /system
-    mount yaffs2 mtd@system /system ro remount
-    mount yaffs2 mtd@userdata /data nosuid nodev
-    mount yaffs2 mtd@cache /cache nosuid nodev
+
+# Emulator-like mount points (mtd)
+# Mount /system rw first to give the filesystem a chance to save a checkpoint
+#    mount yaffs2 mtd@system /system
+#    mount yaffs2 mtd@system /system ro remount
+#    mount yaffs2 mtd@userdata /data nosuid nodev
+#    mount yaffs2 mtd@cache /cache nosuid nodev
+   
+   # Mounting the data file system on NAND device (final build)
+   # To be commented out if the SD-card partition below is used 
+   #mount ext3 /dev/block/mmcblk0p6 /data nosuid nodev
+
+   # Mounting the data and Android main fs from SD-card partitions (for test purposes)
+   # To be used along with the procedure described at 
+   # https://github.com/ffxx68/Renesas-BootSD
+   mount ext3 /dev/block/mmcblk1p6 /mnt/sdcard nosuid nodev
+   mount ext3 /dev/block/mmcblk1p5 /data nosuid nodev
 
 on post-fs
     # once everything is setup, no need to modify /
@@ -108,7 +119,6 @@ on post-fs
     # Create dump dir and collect dumps.
     # Do this before we mount cache so eventually we can use cache for
     # storing dumps on platforms which do not have a dedicated dump partition.
-   
     mkdir /data/dontpanic
     chown root log /data/dontpanic
     chmod 0750 /data/dontpanic
@@ -150,10 +160,6 @@ on post-fs
     mkdir /data/misc/vpn 0770 system system
     mkdir /data/misc/systemkeys 0700 system system
     mkdir /data/misc/vpn/profiles 0770 system system
-    # give system access to wpa_supplicant.conf for backup and restore
-    mkdir /data/misc/wifi 0770 wifi wifi
-    chmod 0770 /data/misc/wifi
-    chmod 0660 /data/misc/wifi/wpa_supplicant.conf
     mkdir /data/local 0771 shell shell
     mkdir /data/local/tmp 0771 shell shell
     mkdir /data/data 0771 system system
@@ -161,20 +167,32 @@ on post-fs
     mkdir /data/app 0771 system system
     mkdir /data/property 0700 root root
 
-    # create dalvik-cache and double-check the perms
+# create dalvik-cache and double-check the perms
     mkdir /data/dalvik-cache 0771 system system
     chown system system /data/dalvik-cache
     chmod 0771 /data/dalvik-cache
 
-    # create the lost+found directories, so as to enforce our permissions
+# create the lost+found directories, so as to enforce our permissions
     mkdir /data/lost+found 0770
     mkdir /cache/lost+found 0770
 
-    # double check the perms, in case lost+found already exists, and set owner
+# double check the perms, in case lost+found already exists, and set owner
     chown root root /data/lost+found
     chmod 0770 /data/lost+found
     chown root root /cache/lost+found
     chmod 0770 /cache/lost+found
+
+# give system access to wpa_supplicant.conf for backup and restore
+    mkdir /data/misc/wifi 0770 wifi wifi
+    chmod 0770 /data/misc/wifi
+    mkdir /data/misc/wifi/sockets 0770 wifi system
+    chown wifi system /data/misc/wifi/sockets
+    chmod 0770 /data/misc/wifi/sockets
+    chmod 0660 /data/misc/wifi/wpa_supplicant.conf
+    chown wifi wifi /data/misc/wifi/wpa_supplicant.conf
+    mkdir /data/misc/dhcp 0770 dhcp dhcp
+    chown dhcp dhcp /data/misc/dhcp
+    chmod 0770 /data/misc/dhcp
 
 on boot
 # basic network init
@@ -184,6 +202,10 @@ on boot
 
 # set RLIMIT_NICE to allow priorities from 19 to -20
     setrlimit 13 40 40
+
+# WiFi interface
+    setprop wifi.interface "eth0"
+    setprop wlan.driver.status "ok" 
 
 # Define the oom_adj values for the classes of processes that can be
 # killed by the kernel.  These are used in ActivityManagerService.
@@ -208,6 +230,7 @@ on boot
     setprop ro.HOME_APP_MEM 6144
     setprop ro.HIDDEN_APP_MEM 7168
     setprop ro.EMPTY_APP_MEM 8192
+
 
 # Write value must be consistent with the above properties.
 # Note that the driver only supports 6 slots, so we have combined some of
@@ -317,6 +340,25 @@ service netd /system/bin/netd
     socket netd stream 0660 root system
 
 service debuggerd /system/bin/debuggerd
+
+# Using "eth0" interface name (dhd.ko module, version 4.218.248.15, ICS Livall kernel)
+service wpa_supplicant /system/bin/wpa_supplicant -dd -Dwext -ieth0 -c /system/etc/wifi/wpa_supplicant.conf
+    socket wpa_eth0 dgram 660 wifi wifi
+    group system wifi inet
+    disabled
+    oneshot 
+service dhcpcd_eth0 /system/bin/dhcpcd eth0 -o domain_name_servers -ABKL
+    disabled
+    oneshot
+
+# Using "wlan0" interface name (wlan.ko module, version 4.218.248.6, GB Livall kernel)
+#service wpa_supplicant /system/bin/wpa_supplicant -Dwext -iwlan0 -c/data/misc/wifi/wpa_supplicant.conf
+#    socket wpa_wlan0 dgram 660 wifi wifi
+#    disabled
+#    oneshot
+#service dhcpcd_wlan0 /system/bin/dhcpcd wlan0 -o domain_name_servers -ABKL
+#    disabled
+#    oneshot
 
 service ril-daemon /system/bin/rild
     socket rild stream 660 root radio

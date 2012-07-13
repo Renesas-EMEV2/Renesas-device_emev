@@ -32,6 +32,16 @@ TARGET_PROVIDES_INIT_RC := true
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_BOOTIMAGE_USE_EXT4 := true
 
+# Wifi module
+# http://blog.linuxconsulting.ro/2010/04/porting-wifi-drivers-to-android.html
+# dhd.ko is for BCM4329_4_218_248_15
+# wlan.ko is for BCM4329_4_218_248_6
+BOARD_WPA_SUPPLICANT_DRIVER := WEXT
+WIFI_DRIVER_MODULE_PATH := /lib/modules/dhd.ko
+WIFI_DRIVER_MODULE_NAME := dhd
+#WIFI_DRIVER_MODULE_PATH := /lib/modules/wlan.ko
+#WIFI_DRIVER_MODULE_NAME := wlan
+
 # MultiMedia defines
 BOARD_USES_GENERIC_AUDIO := true
 #BOARD_USES_ALSA_AUDIO := true

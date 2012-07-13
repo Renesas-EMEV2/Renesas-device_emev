@@ -32,6 +32,24 @@ PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/init.emxx.rc:root/init.emxx.rc \
 	$(LOCAL_PATH)/init.emev.sh:system/etc/init.emev.sh
 
+# Wifi modules
+# See  http://blog.linuxconsulting.ro/2010/04/porting-wifi-drivers-to-android.html
+# dhd.ko module, version 4.218.248.15 (dhd.ko module, version 4.218.248.15, ICS Livall kernel)
+PRODUCT_COPY_FILES += \
+       $(LOCAL_PATH)/bcm/4.218.248.15/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
+       $(LOCAL_PATH)/bcm/4.218.248.15/dhd.ko:root/lib/modules/dhd.ko \
+       $(LOCAL_PATH)/bcm/4.218.248.15/fw4329.bin:system/etc/firmware/fw4329.bin \
+       $(LOCAL_PATH)/bcm/4.218.248.15/4329_nvram.txt:system/etc/firmware/4329_nvram.txt
+
+# wlan.ko module, version 4.218.248.6 (wlan.ko module, version 4.218.248.6, GB Livall kernel)
+#PRODUCT_COPY_FILES += \
+#       $(LOCAL_PATH)/bcm/4.218.248.6/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
+#       $(LOCAL_PATH)/bcm/4.218.248.6/wlan.ko:root/lib/modules/wlan.ko \
+#       $(LOCAL_PATH)/bcm/4.218.248.6/fw_bcm4329.bin:root/lib/modules/fw_bcm4329.bin \
+#       $(LOCAL_PATH)/bcm/4.218.248.6/nvram.txt:root/lib/modules/nvram.txt \
+#       $(LOCAL_PATH)/bcm/4.218.248.6/USI_BCM4329B1.hcd:root/lib/modules/USI_BCM4329B1.hcd
+ 
+
 #$(call inherit-product, frameworks/base/data/sounds/OriginalAudio.mk)
 
 # include available languages for TTS in the system image
