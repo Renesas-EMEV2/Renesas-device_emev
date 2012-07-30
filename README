@@ -10,11 +10,11 @@ Discuss about it on : https://groups.google.com/forum/?fromgroups#!forum/renesas
 
 A customized version of the AOSP 2.3.6_r1 manifest can be found at:
 
- https://github.com/ffxx68/Renesas-manifest
+ https://github.com/Renesas-EMEV2/Renesas-manifest
 
 so, the "repo init" step should be made using this manifest:
 
- repo init -u https://github.com/ffxx68/Renesas-manifest.git -b MyPad
+ repo init -u https://github.com/Renesas-EMEV2/Renesas-manifest.git -b MyPad
 
 In .repo/manifests/deafult.xml, customized projects are linked to the corresponding ffxx68 repositories, in place of the default Android ones.
 The rest are pulled off the standard googlesource repositories, as usual in AOSP.
@@ -100,19 +100,20 @@ With these to verify that all went fine:
 
 4) Notes about projects
 
-The following customized projects make up our ROSP:
+A number of customized "projects" make up our ROSP, e.g.
 
 Project                              Path                  
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-ffxx68/Renesas-device_emev           device/renesas/emev   
-ffxx68/Renesas-hardware_emev         hardware/renesas/emev
-ffxx68/Renesas-bionic                bionic
-ffxx68/Renesas-frameworks_base       frameworks/base       
-ffxx68/Renesas-build                 build
-ffxx68/Renesas-system_core           system/core
-ffxx68/Renesas-system_vold           system/vold
+Renesas-device_emev           device/renesas/emev   
+Renesas-hardware_emev         hardware/renesas/emev
+Renesas-bionic                bionic
+Renesas-frameworks_base       frameworks/base       
+Renesas-build                 build
+...
 
-I meant "ffxx68/Renesas-device_emev" to be the "entry point" to the ROSP, with the present README explaining the basic steps to build the firmware update package from scratch.
+each implemented into a different repository, as per the standard AOSP approach.
+
+I meant "Renesas-device_emev" to be the "entry point" to the ROSP, with the present README explaining the basic steps to build the firmware update package from scratch.
 
 As "device/renesas/emev" and "hardware/renesas/emev" didn't exist in the AOSP, these were created from scratch and pushed on the ffxx68 GitHub account.
 
@@ -125,7 +126,7 @@ The "frameworks/base" and "build" were modified only to allow compilation on Ubu
 
 Each projects has a "MyPad" branch, to track ROSP changes.
 
-NOTE 1 - The procedure I followed, for each project was the following:
+The procedure I followed, for each project, was the following:
 
  - In GitHub, fork android/platform_<abc>, Gingerbread branch, to ffxx68
  - In GitHub, admin->rename ffxx68/platform_<abc> to ffxx68/Renesas-<abc>
@@ -146,17 +147,23 @@ Altough it is off topic to describe here how to use git, or GitHub in general (f
  git commit -m "Leave your commit comments here"
  git push -u github MyPad
 
-This woud require you to have an account registered on GitHub, where you may have forked the project to.
+This would require you to have an account registered on GitHub, where you may have forked the project to.
 
 Find help oh GitHub, for admin and access details. E.g.
 
  http://help.github.com/send-pull-requests/
 
-If you find it easier, use our ROSP discussion group to let us have your patches instead:
+A "Renesas-EMEV2" Oragazization:
+
+ https://github.com/organizations/Renesas-EMEV2
+
+has been setup on GitHub, in order to allow collaborative development. Members taking part to this organization can "push" or "pull" commits on the various repositories.
+
+Anyone interested in participating can use our ROSP Discussion Group on Google, to ask for membership:
 
  https://groups.google.com/forum/#!forum/renesas-emev-osp
  
-Use the same group if you think anything in the whole process may be improved. Suggestions are alway welcome!
+Use the same group if you think anything in the whole process may be improved. Suggestions are always welcome!
 
 -----------------------
 
