@@ -194,6 +194,16 @@ on post-fs
     chown dhcp dhcp /data/misc/dhcp
     chmod 0770 /data/misc/dhcp
 
+# wifi dongle power up/down interface
+   chown wifi wifi /sys/class/rfkill/rfkill0/type
+   chown wifi wifi /sys/class/rfkill/rfkill0/state
+   chmod 0660      /sys/class/rfkill/rfkill0/state
+
+# bluetooth power up/down interface
+   chown bluetooth bluetooth /sys/class/rfkill/rfkill1/type
+   chown bluetooth bluetooth /sys/class/rfkill/rfkill1/state
+   chmod 0660                /sys/class/rfkill/rfkill1/state
+
 on boot
 # basic network init
     ifup lo
