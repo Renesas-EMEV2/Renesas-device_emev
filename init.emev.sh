@@ -12,12 +12,12 @@ ln -s /dev/v4l/video1 /dev/video1
 mkdir /dev/fb
 ln -s /dev/graphics/fb0 /dev/fb/0
 
-ls /lib/modules/pvrsrvkm.ko
+ls /vendor/lib/pvrsrvkm.ko
 ret=$?
 
 case ${ret} in
   0)
-    #mv /system/lib/hw/gralloc.emxx.so /system/lib/hw/gralloc.emxx.so_tmp
+    mv /system/lib/hw/gralloc.emxx.so /system/lib/hw/gralloc.emxx.so_tmp
     insmod /lib/modules/pvrsrvkm.ko
     /vendor/bin/pvrsrvinit
 

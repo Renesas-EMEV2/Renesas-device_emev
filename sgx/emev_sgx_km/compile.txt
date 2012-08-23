@@ -1,0 +1,30 @@
+If you want to make SGX kernel *.ko (no SMP version), the following procedure is a MUST.
+
+NOTE - Before making these *.ko, Android Userland should be built first.
+
+1) setup environment variables (see also ./env.sh)
+
+$ export LANG=C
+$ export ARCH=arm
+$ export KERNELDIR=/path/to/linux-kernel/dir
+$ export ANDROID_ROOT=/path/to/android
+$ export CROSS_COMPILE=arm-eabi-
+$ export KERNEL_CROSS_COMPILE=$CROSS_COMPILE
+
+2) compile
+
+$ cd eurasia_km/eurasiacon/build/linux2/emev_android/
+$ make
+
+3) Check the result:
+
+Under "eurasia_km/eurasiacon/binary2_emev_android_release/target" directory, you should see these files:
+
+ bc_example.ko
+ emxxlfb.ko
+ pvrsrvkm.ko
+
+You can find these also under this dir:
+
+ $AOSP/out/target/product/emev/target/kbuild
+

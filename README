@@ -167,29 +167,12 @@ Use the same group if you think anything in the whole process may be improved. S
 
 -----------------------
 
-6) Getting OMX and SGX firmware blobs and libraries
+6) First time build
 
-The script
+If you've just downlaoded AOSP sources, you won't have adb, which is an out-product of the build. 
 
- $AOSP/device/renesas/emev/pull_firmware.sh
+If you don't have adb you can't either build SGX or pull the OMF files (see below), hence you can't complete the build. So, first time you need to build skipping the OMF and SGX stuff.
 
-can be used to pull off the real device the firmware binaries and libraries managing:
-
- - the video encoder/decoder (OMX)
- - 3D-graphics accelerator (SGX)
-
-These are released only as pre-compiled libraries, source code being proprietary.
-
-The device must have a stock 2.3 Android on board (e.g. the "1220" build), to pull these files from, and should be running and connected through USB to your build host.
-
-Try "adb shell" first, to verify if the connection works properly.
-
-The script puts files in sgx/ and omf/ under $AOSP/device/renesas/emev. The Android build process then moves files under the expected target directories.
-
-The script assumes $AOSP is set with the path to aosp top dir.
-
-NOTE - if you've just downlaoded AOSP sources, you won't have adb, which is an out-product of the build. 
-If you don't have adb you can't run this script and hence you can't complete the build. So, first time you need to build skipping the OMF and SGX stuff.
 You can do this renaming the makefiles:
 
  cd $AOSP/devive/renesas/emev
@@ -246,9 +229,53 @@ Installed file list: out/target/product/emev/installed-files.txt
 
 -----------------------
 
-8) Packaging files
+8) Getting OMX and SGX firmware blobs and libraries
 
 The script
+
+ $AOSP/device/renesas/emev/pull_firmware.sh
+
+can be used to pull off the real device the firmware binaries and libraries managing:
+
+ - the video encoder/decoder (OMX)
+ - 3D-graphics accelerator (SGX)
+
+These are released only as pre-compiled libraries, source code being proprietary.
+
+The device must have a stock 2.3 Android on board (e.g. the "1220" build), to pull these files from, and should be running and connected through USB to your build host.
+
+Try "adb shell" first, to verify if the connection works properly.
+
+The script puts files in sgx/ and omf/ under $AOSP/device/renesas/emev. The Android build process then moves files under the expected target directories.
+
+NOTE - The script assumes $AOSP is set with the path to aosp top dir.
+
+-----------------------
+
+9) Building SGX modules
+
+To build the SGX modules (i.e. Power VR graphic acceleration handlers), follow instructions found in 
+
+ $AOSP/device/renesas/emev/sgx/emev_sgx_km/compile.txt
+ 
+Other propretary libraries are provided as a binary only. E.g.
+
+-rw-r--r-- 1 ffxx68 ffxx68  14172 Nov 10  2011 gralloc.emxx.so
+-rw-r--r-- 1 ffxx68 ffxx68   9224 Nov 10  2011 libEGL_POWERVR_SGX530_120.so
+-rw-r--r-- 1 ffxx68 ffxx68 424448 Nov 10  2011 libGLESv1_CM_POWERVR_SGX530_120.so
+(etc.)
+
+These include gralloc.emxx.so, which is also built by our project, but wthout SGX support. The provided binary should include SGX support instead. *** UNDER TEST ***
+
+NOTE - The procedure assumes Android is built already, as well as $AOSP and $KERNEL are set with your aosp and kernel home dirs respectively.
+
+-----------------------
+
+10) Packaging files
+
+NOTE - Remeber to re-build Android after SGX and OMF files are completed, as expleined above.
+
+Then, in order to wrap up the final build and prepar it for delivery to the device, the script
 
  $AOSP/device/renesas/emev/pack.sh
 
@@ -268,7 +295,7 @@ Alternatively, for quicker test cycles, you could follow the instructions to cre
 
 -----------------------
 
-9) About Google Apps
+11) About Google Apps
 
 The AOSP source code comes naked of the most common Google Apps, fond in any tytpical device.
 
@@ -284,7 +311,7 @@ Note - this is NOT a mandatory step, to complete a working build.
 
 -----------------------
 
-10) The bootloader 
+12) The bootloader 
 
 The internals of the bootloader and the corresponding source code is found at:
 
