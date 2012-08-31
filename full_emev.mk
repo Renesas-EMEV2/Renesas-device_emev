@@ -29,7 +29,7 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/init.rc:root/init.rc \
-	$(LOCAL_PATH)/init.emxx.rc:root/init.emxx.rc \
+	$(LOCAL_PATH)/init.emev.rc:root/init.emev.rc \
 	$(LOCAL_PATH)/init.emev.sh:system/etc/init.emev.sh
 
 # Wifi modules
