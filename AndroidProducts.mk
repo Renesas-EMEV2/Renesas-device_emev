@@ -1,1 +1,3 @@
-PRODUCT_MAKEFILES := $(LOCAL_DIR)/full_emev.mk
+
+PRODUCT_MAKEFILES := \
+    $(LOCAL_DIR)/emev.mk

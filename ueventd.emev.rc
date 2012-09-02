@@ -1,0 +1,9 @@
+
+/dev/InterDSP/*           0666   root       graphics
+/dev/ave                  0666   root       graphics
+/dev/v4l/*                0666   root       graphics
+/dev/siz                  0666   root       graphics
+/dev/rot0                 0666   root       graphics
+/dev/pvrsrvkm             0666   system     graphics
+/dev/bc_example           0666   system     graphics
+

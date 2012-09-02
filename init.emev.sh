@@ -2,9 +2,8 @@
 
 chmod 666 /sys/power/sleep_while_idle
 
-# To be installed yet\
-#insmod /lib/modules/inter_dsp.ko
-#insmod /lib/modules/em_ave.ko
+insmod /lib/modules/inter_dsp.ko
+insmod /lib/modules/em_ave.ko
  
 ln -s /dev/v4l/video0 /dev/video0
 ln -s /dev/v4l/video1 /dev/video1
@@ -17,7 +16,7 @@ ret=$?
 
 case ${ret} in
   0)
-    #mv /system/lib/hw/gralloc.emxx.so /system/lib/hw/gralloc.emxx.so_tmp
+    mv /system/lib/hw/gralloc.emxx.so /system/lib/hw/gralloc.emxx.so_tmp
     insmod /lib/modules/pvrsrvkm.ko
     /vendor/bin/pvrsrvinit
 
