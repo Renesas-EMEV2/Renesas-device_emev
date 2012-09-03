@@ -1,1 +1,1 @@
-add_lunch_combo full_renesas_emev-eng
+add_lunch_combo renesas_emev-eng

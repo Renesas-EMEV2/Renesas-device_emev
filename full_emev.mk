@@ -1,5 +1,7 @@
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_small.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/generic.mk)
+$(call inherit-product, device/renesas/emev/gpu.mk)
+$(call inherit-product, frameworks/base/data/sounds/OriginalAudio.mk)
 
 PRODUCT_PACKAGES += \
     LiveWallpapersPicker \
@@ -7,10 +9,18 @@ PRODUCT_PACKAGES += \
     MagicSmokeWallpapers \
     VisualizationWallpapers \
     librs_jni \
-    lights.emxx
+
+PRODUCT_PACKAGES += \
+	gralloc.emxx \
+	copybit.emxx \
+	lights.emxx \
+	alsa.default \
+	overlay.emxx \
+	libstagefrighthw \
+        acoustics.default
 
 # Discard inherited values and use our own instead.
-PRODUCT_NAME := full_renesas_emev
+PRODUCT_NAME := renesas_emev
 PRODUCT_DEVICE := emev
 PRODUCT_MODEL := Full Renesas EMEV
 PRODUCT_BOARD := emev
@@ -29,8 +39,11 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/init.rc:root/init.rc \
-	$(LOCAL_PATH)/init.emev.rc:root/init.emev.rc \
-	$(LOCAL_PATH)/init.emev.sh:system/etc/init.emev.sh
+	$(LOCAL_PATH)/init.emev.rc:root/init.emxx.rc \
+ 	$(LOCAL_PATH)/ueventd.emev.rc:root/ueventd.emxx.rc \
+  	$(LOCAL_PATH)/init.emev.sh:system/etc/init.emev.sh \
+  	$(LOCAL_PATH)/vold.fstab:system/etc/vold.fstab \
+  	$(LOCAL_PATH)/media_profiles.xml:system/etc/media_profiles.xml
 
 # Wifi modules
 # See  http://blog.linuxconsulting.ro/2010/04/porting-wifi-drivers-to-android.html
