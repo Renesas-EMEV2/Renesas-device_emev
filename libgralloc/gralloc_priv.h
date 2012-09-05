@@ -30,6 +30,7 @@
 #include <linux/fb.h>
 
 /*****************************************************************************/
+#define LOGE ALOGE
 
 struct private_module_t;
 struct private_handle_t;

@@ -40,6 +40,8 @@
 #if HAVE_ANDROID_OS
 #include <linux/android_pmem.h>
 #endif
+#define LOGE ALOGE
+#define LOGE_IF ALOGE_IF
 
 /*****************************************************************************/
 

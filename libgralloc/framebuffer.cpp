@@ -44,6 +44,10 @@
 
 /*****************************************************************************/
 
+#define LOGE ALOGE
+#define LOGV ALOGV
+#define LOGW ALOGW
+#define LOGI ALOGI
 // numbers of buffers for page flipping
 #define NUM_BUFFERS 2
 

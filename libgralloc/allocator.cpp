@@ -18,6 +18,7 @@
 
 #include "allocator.h"
 
+#define LOGE_IF ALOGE_IF
 
 // align all the memory blocks on a cache-line boundary
 const int SimpleBestFitAllocator::kMemoryAlign = 32;
