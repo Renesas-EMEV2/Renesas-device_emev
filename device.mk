@@ -48,6 +48,11 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/emev-keypad.kl:system/usr/keylayout/qwerty.kl
 
+# EMEV touch pad configure file
+PRODUCT_COPY_FILES += \
+        $(LOCAL_PATH)/touch.idc:system/usr/idc/pixcir168.idc
+
+
 # Live Wallpapers
 PRODUCT_PACKAGES += \
         LiveWallpapers \
