@@ -21,7 +21,7 @@ LOCAL_KERNEL := uImage
 #DEVICE_PACKAGE_OVERLAYS := device/samsung/tuna/overlay
 
 PRODUCT_PACKAGES := \
-	lights.emxx
+	lights.emxx gralloc.emxx
 
 
 # kernel modules
