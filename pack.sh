@@ -1,7 +1,6 @@
 #!/bin/sh
 WORK_DIR=$AOSP/device/renesas/emev/tmp
 GAPP_DIR=$AOSP/device/renesas/emev/GoogleApps
-OBJ_DIR=$1
 
 if [ -z $AOSP ] ; then
 	echo "AOSP variable not set"
@@ -20,6 +19,8 @@ if [ ! -d ${1} ] ; then
 	exit 1
 fi
 
+OBJ_DIR=$1
+
 echo "Creating Android fs..."
 if [ ! -d ${WORK_DIR} ] ; then
    mkdir ${WORK_DIR}
@@ -35,12 +36,12 @@ sudo rm -rf ${WORK_DIR}/android-fs
 # http://wiki.rootzwiki.com/Google_Apps#20110828
 # Need review and test in JB !!!
 if [ -d ${GAPP_DIR}/system ] ; then
-   cd ${ANDROID_DIR}/out/target/product/emev/
+   cd ${AOSP}/out/target/product/emev/
    cp -r $GAPP_DIR/system .
 fi
 
 # packaging Android file system
-cd ${ANDROID_DIR}/out/target/product/emev/
+cd ${AOSP}/out/target/product/emev/
 tar zcf ${WORK_DIR}/tmp-android.tar.gz system data root
 
 if [ ! -d ${WORK_DIR}/android-fs ] ; then
