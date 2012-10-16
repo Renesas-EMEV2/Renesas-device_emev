@@ -173,12 +173,32 @@ on post-fs-data
     mkdir /data/misc/bluetoothd 0770 bluetooth bluetooth
     mkdir /data/misc/bluetooth 0770 system system
     mkdir /data/misc/keystore 0700 keystore keystore
-    #mkdir /data/misc/vpn 0770 system vpn
+    mkdir /data/misc/vpn 0770 system vpn
     mkdir /data/misc/systemkeys 0700 system system
+
     # give system access to wpa_supplicant.conf for backup and restore
     mkdir /data/misc/wifi 0770 wifi wifi
-    chmod 0660 /data/misc/wifi/wpa_supplicant.conf
     mkdir /data/local 0771 shell shell
+    mkdir /system/etc/wifi 0770 wifi wifi
+    chmod 0770 /system/etc/wifi
+    chmod 0660 /system/etc/wifi/wpa_supplicant.conf
+    chown wifi wifi /system/etc/wifi/wpa_supplicant.conf
+
+    # wpa_supplicant control socket for android wifi.c (android private socket)
+    mkdir /data/misc/wifi/sockets 0777 wifi wifi
+    mkdir /data/system/wpa_supplicant 0777 wifi wifi
+    chmod 0777 /data/misc/wifi
+    chmod 0777 /data/misc/wifi/wpa_supplicant.conf
+    chown wifi wifi /data/misc/wifi
+    chown wifi wifi /data/misc/wifi/wpa_supplicant.conf
+
+    mkdir /data/misc/dhcp 0777 dhcp dhcp
+    chmod 0777 /data/misc/dhcp
+    chmod 0777 /system/etc/dhcpcd
+    chmod 0777 /system/etc/dhcpcd/dhcpcd-run-hooks
+    chown dhcp dhcp /data/misc/dhcp
+    chown dhcp dhcp /system/etc/dhcpcd
+    chown dhcp dhcp /system/etc/dhcpcd/dhcpcd-run-hooks 
 
     # For security reasons, /data/local/tmp should always be empty.
     # Do not place files or directories in /data/local/tmp
@@ -219,6 +239,17 @@ on post-fs-data
     chmod 0660 /sys/class/android_usb/android0/f_mass_storage/lun/file
     chown system system /sys/class/android_usb/android0/f_rndis/ethaddr
     chmod 0660 /sys/class/android_usb/android0/f_rndis/ethaddr
+
+# wifi dongle power up/down interface
+   chown wifi wifi /sys/class/rfkill/rfkill0/type
+   chown wifi wifi /sys/class/rfkill/rfkill0/state
+   chmod 0660      /sys/class/rfkill/rfkill0/state
+
+# bluetooth power up/down interface
+   chown bluetooth bluetooth /sys/class/rfkill/rfkill1/type
+   chown bluetooth bluetooth /sys/class/rfkill/rfkill1/state
+   chmod 0660                /sys/class/rfkill/rfkill1/state
+
 
 on boot
 # basic network init
@@ -539,6 +570,18 @@ service keystore /system/bin/keystore /data/misc/keystore
 service dumpstate /system/bin/dumpstate -s
     class main
     socket dumpstate stream 0660 shell log
+    disabled
+    oneshot
+
+service wpa_supplicant /system/bin/wpa_supplicant -dd -Dwext -ieth0 -c /system/etc/wifi/wpa_supplicant.conf
+    class main
+    socket wpa_eth0 dgram 660 wifi system
+    group system wifi inet
+    disabled
+    oneshot
+
+service dhcpcd_eth0 /system/bin/dhcpcd -ABKL
+    class main
     disabled
     oneshot
 

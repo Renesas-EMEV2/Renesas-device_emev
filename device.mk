@@ -53,6 +53,18 @@ PRODUCT_COPY_FILES += \
         $(LOCAL_PATH)/touch.idc:system/usr/idc/pixcir168.idc \
 	$(LOCAL_PATH)/touch.idc:system/usr/idc/gt80x.idc
 
+# Wifi configuration
+PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/wifi/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
+	$(LOCAL_PATH)/wifi/dhd.ko:system/lib/modules/dhd.ko \
+	$(LOCAL_PATH)/wifi/fw4329.bin:system/etc/firmware/fw4329.bin \
+	$(LOCAL_PATH)/wifi/4329_nvram.txt:system/etc/firmware/4329_nvram.txt
+
+# external hardware conf
+PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/ext_hardware_xml/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml
+
+
 # Live Wallpapers
 PRODUCT_PACKAGES += \
         LiveWallpapers \

@@ -207,7 +207,7 @@ but it doesn't prevent a succesful build.
 
 8) About OMX and SGX firmware blobs and libraries
 
-   ***** THIS HAS TO BE DONE YET *****
+   ***** THIS HAS TO BE COMPLETED YET *****
 
 The firmware binaries and libraries managing:
 
@@ -225,7 +225,17 @@ and the build scripts take care of copying into the target locations.
 
 -----------------------
 
-9) Packaging files
+9) About Bradcom BCM4329 WiFi driver
+
+The kernel driver for the BCM4329 Wifi device is provided as a pre-compiled binary only:
+
+ wifi/dhd.ko
+
+Source code is proprietary and needs recompiling only in case of major changes to kernel.
+
+-----------------------
+
+10) Packaging files
 
 NOTE - Remeber to re-build Android after SGX and OMF files are completed, as expleined above.
 
@@ -241,7 +251,7 @@ Note - The script assumes $AOSP and $KERNEL variables are set
 
 -----------------------
 
-10) Bootloader and firmware upgrade
+11) Bootloader and firmware upgrade
 
 The internals of the bootloader and the corresponding source code is found at:
 
@@ -253,7 +263,7 @@ More info can found over there, in README-Renesas.
 
 -----------------------
 
-11) About Google Apps
+12) About Google Apps
 
 The AOSP source code comes naked of the most common Google Apps, fond in any tytpical device.
 
