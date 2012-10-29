@@ -50,7 +50,7 @@ PRODUCT_COPY_FILES += \
 
 # EMEV touch pad configure file
 PRODUCT_COPY_FILES += \
-        $(LOCAL_PATH)/touch.idc:system/usr/idc/pixcir168.idc \
+        $(LOCAL_PATH)/touch.idc:system/usr/idc/pixcir.idc \
 	$(LOCAL_PATH)/touch.idc:system/usr/idc/gt80x.idc
 
 # Wifi configuration
