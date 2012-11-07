@@ -21,8 +21,15 @@ LOCAL_KERNEL := uImage
 #DEVICE_PACKAGE_OVERLAYS := device/samsung/tuna/overlay
 
 PRODUCT_PACKAGES := \
-	lights.emxx gralloc.emxx
+	lights.emxx \
+        gralloc.emxx 
 
+
+#PRODUCT_PACKAGES += \
+#        acoustics.default \
+#        alsa.emxx \
+#        audio.primary.emxx \
+#        audio_policy.emxx 
 
 # kernel modules
 #PRODUCT_COPY_FILES += \

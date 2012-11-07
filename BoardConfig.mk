@@ -26,8 +26,8 @@ TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_BOOTIMAGE_USE_EXT4 := true
 
 # MultiMedia defines
-#BOARD_USES_GENERIC_AUDIO := true
-BOARD_USES_ALSA_AUDIO := true
+BOARD_USES_GENERIC_AUDIO := true
+#BOARD_USES_ALSA_AUDIO := true
 USE_CAMERA_STUB := true
 
 # Wifi related defines
