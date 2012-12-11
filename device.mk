@@ -41,11 +41,10 @@ PRODUCT_PACKAGES := \
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/init.rc:root/init.rc \
 	$(LOCAL_PATH)/ueventd.emev.rc:root/ueventd.emxx.rc \
-	$(LOCAL_PATH)/init.emev.rc:root/init.emxx.rc \
+	$(LOCAL_PATH)/init.emxx.rc:root/init.emxx.rc \
 	$(LOCAL_PATH)/init.emev.sh:system/etc/init.emev.sh \
 	$(LOCAL_PATH)/vold.fstab:system/etc/vold.fstab \
 	$(LOCAL_PATH)/media_profiles.xml:system/etc/media_profiles.xml
-
 
 # EMEV logo file
 PRODUCT_COPY_FILES += \
@@ -70,6 +69,38 @@ PRODUCT_COPY_FILES += \
 # external hardware conf
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/ext_hardware_xml/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml
+
+##############################################
+# PowerVR SGX 530 EGL rendering engine drivers
+SGX_PATH := $(LOCAL_PATH)/sgx
+SGX_BINARIES := $(SGX_PATH)
+SGX_MODULES := $(SGX_PATH)/modules
+PRODUCT_COPY_FILES += \
+	$(SGX_MODULES)/pvrsrvkm.ko:root/lib/modules/pvrsrvkm.ko \
+	$(SGX_MODULES)/emxxlfb.ko:root/lib/modules/emxxlfb.ko
+# HAL libraries
+PRODUCT_COPY_FILES += \
+	$(SGX_BINARIES)/vendor/lib/hw/gralloc.emxx.so:system/vendor/lib/hw/gralloc.emxx.so \
+	$(SGX_BINARIES)/vendor/lib/hw/hwcomposer.emxx.so:system/vendor/lib/hw/hwcomposer.emxx.so
+# SGX library files
+PRODUCT_COPY_FILES += \
+	$(SGX_BINARIES)/vendor/lib/egl/libEGL_POWERVR_SGX530_120.so:system/vendor/lib/egl/libEGL_POWERVR_SGX530_120.so \
+	$(SGX_BINARIES)/vendor/lib/egl/libGLESv1_CM_POWERVR_SGX530_120.so:system/vendor/lib/egl/libGLESv1_CM_POWERVR_SGX530_120.so \
+	$(SGX_BINARIES)/vendor/lib/egl/libGLESv2_POWERVR_SGX530_120.so:system/vendor/lib/egl/libGLESv2_POWERVR_SGX530_120.so \
+	$(SGX_BINARIES)/vendor/lib/libIMGegl.so:system/vendor/lib/libIMGegl.so \
+	$(SGX_BINARIES)/vendor/lib/libPVRScopeServices.so:system/vendor/lib/libPVRScopeServices.so \
+	$(SGX_BINARIES)/vendor/lib/libglslcompiler.so:system/vendor/lib/libglslcompiler.so \
+	$(SGX_BINARIES)/vendor/lib/libsrv_um.so:system/vendor/lib/libsrv_um.so \
+	$(SGX_BINARIES)/vendor/lib/libsrv_init.so:system/vendor/lib/libsrv_init.so \
+	$(SGX_BINARIES)/vendor/lib/libusc.so:system/vendor/lib/libusc.so \
+	$(SGX_BINARIES)/vendor/lib/libpvr2d.so:system/vendor/lib/libpvr2d.so \
+	$(SGX_BINARIES)/vendor/lib/libpvrANDROID_WSEGL.so:system/vendor/lib/libpvrANDROID_WSEGL.so
+# SGX Execution files
+PRODUCT_COPY_FILES += \
+	$(SGX_BINARIES)/vendor/bin/pvrsrvinit:system/vendor/bin/pvrsrvinit
+# EGL configuration
+PRODUCT_COPY_FILES += \
+	$(SGX_BINARIES)/lib/egl/egl.cfg:system/lib/egl/egl.cfg
 
 
 # Live Wallpapers
