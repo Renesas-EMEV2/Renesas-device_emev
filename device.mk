@@ -73,8 +73,8 @@ PRODUCT_COPY_FILES += \
 ##############################################
 # PowerVR SGX 530 EGL rendering engine drivers
 SGX_PATH := $(LOCAL_PATH)/sgx
-SGX_BINARIES := $(SGX_PATH)
-SGX_MODULES := $(SGX_PATH)/modules
+SGX_BINARIES := $(SGX_PATH)/out/system
+SGX_MODULES := $(SGX_PATH)/eurasia_km/eurasiacon/binary2_emev_android_debug/target/kbuild
 PRODUCT_COPY_FILES += \
 	$(SGX_MODULES)/pvrsrvkm.ko:root/lib/modules/pvrsrvkm.ko \
 	$(SGX_MODULES)/emxxlfb.ko:root/lib/modules/emxxlfb.ko
