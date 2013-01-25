@@ -24,14 +24,17 @@ PRODUCT_PACKAGES := \
 	lights.emxx \
         gralloc.emxx 
 
+# Audio
+PRODUCT_PACKAGES += \
+	audio.primary.emxx \
+	audio.a2dp.default \
+        audio.usb.default
 
-#PRODUCT_PACKAGES += \
-#        acoustics.default \
-#        alsa.emxx \
-#        audio.primary.emxx \
-#        audio_policy.emxx 
+PRODUCT_COPY_FILES += \
+	device/renesas/emev/audio/audio_policy.conf:system/etc/audio_policy.conf \
+	device/renesas/emev/audio/mixer_paths.xml:system/etc/mixer_paths.xml
 
-# kernel modules
+# kernel modules - moved to final packaging script.
 #PRODUCT_COPY_FILES += \
 #	$(LOCAL_PATH)/modules/inter_dsp.ko:root/lib/modules/inter_dsp.ko \
 #	$(LOCAL_PATH)/modules/em_ave.ko:root/lib/modules/em_ave.ko \

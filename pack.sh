@@ -67,7 +67,7 @@ sudo chown -R 1000:1000 ./
 sudo tar zcf ${OBJ_DIR}/android-fs4.tar.gz ./
 
 # Kernel image
-cp ${KERNEL_DIR}/arch/arm/boot/uImage ${OBJ_DIR}/uImage4
+cp ${KERNEL_DIR}/arch/arm/boot/uImage4 ${OBJ_DIR}/uImage4
 
 # final cleanup
 rm -f ${WORK_DIR}/tmp-android.tar.gz 
