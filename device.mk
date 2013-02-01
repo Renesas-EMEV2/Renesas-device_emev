@@ -26,9 +26,17 @@ PRODUCT_PACKAGES := \
 
 # Audio
 PRODUCT_PACKAGES += \
-	audio.primary.emxx \
-	audio.a2dp.default \
-        audio.usb.default
+	audio.primary.emxx
+
+# Audio samples
+PRODUCT_COPY_FILES += \
+	frameworks/base/data/sounds/effects/Lock.ogg:system/media/audio/ui/Lock.ogg \
+	frameworks/base/data/sounds/effects/Lock.ogg:system/media/audio/ui/Unlock.ogg \
+	frameworks/base/data/sounds/effects/Effect_Tick.ogg:system/media/audio/ui/Effect_Tick.ogg \
+	frameworks/base/data/sounds/effects/KeypressStandard.ogg:system/media/audio/ui/KeypressStandard.ogg \
+	frameworks/base/data/sounds/effects/KeypressSpacebar.ogg:system/media/audio/ui/KeypressSpacebar.ogg \
+	frameworks/base/data/sounds/effects/KeypressDelete.ogg:system/media/audio/ui/KeypressDelete.ogg \
+	frameworks/base/data/sounds/effects/KeypressReturn.ogg:system/media/audio/ui/KeypressReturn.ogg
 
 PRODUCT_COPY_FILES += \
 	device/renesas/emev/audio/audio_policy.conf:system/etc/audio_policy.conf \

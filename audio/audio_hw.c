@@ -15,7 +15,7 @@
  */
 
 #define LOG_TAG "audio_hw_primary"
-/*#define LOG_NDEBUG 0*/
+#define LOG_NDEBUG 0
 
 #include <errno.h>
 #include <pthread.h>
@@ -38,7 +38,7 @@
 
 #include "audio_route.h"
 
-#define PCM_CARD 1
+#define PCM_CARD 0
 #define PCM_DEVICE 0
 #define PCM_DEVICE_SCO 2
 
@@ -190,16 +190,20 @@ static void select_devices(struct audio_device *adev)
     if (headphone_on)
         audio_route_apply_path(adev->ar, "headphone");
     if (main_mic_on) {
-        if (adev->orientation == ORIENTATION_LANDSCAPE)
+        /* if (adev->orientation == ORIENTATION_LANDSCAPE)
             audio_route_apply_path(adev->ar, "main-mic-left");
         else
             audio_route_apply_path(adev->ar, "main-mic-top");
+        */
+	audio_route_apply_path(adev->ar, "mic");
     }
 
     update_mixer_state(adev->ar);
 
-    ALOGV("hp=%c speaker=%c main-mic=%c", headphone_on ? 'y' : 'n',
-          speaker_on ? 'y' : 'n', main_mic_on ? 'y' : 'n');
+    ALOGV("hp=%c speaker=%c main-mic=%c", 
+         headphone_on ? 'y' : 'n',
+         speaker_on ? 'y' : 'n', 
+         main_mic_on ? 'y' : 'n');
 }
 
 /* must be called with hw device and output stream mutexes locked */

@@ -16,7 +16,7 @@
  */
 
 #define LOG_TAG "audio_hw_primary"
-/*#define LOG_NDEBUG 0*/
+#define LOG_NDEBUG 0
 
 #include <errno.h>
 #include <expat.h>
@@ -355,6 +355,7 @@ void update_mixer_state(struct audio_route *ar)
                                     ar->mixer_state[i].new_value);
             ar->mixer_state[i].old_value = ar->mixer_state[i].new_value;
         }
+	ALOGV("mixert ctl %d - new: %d, old: %d", i, ar->mixer_state[i].new_value, ar->mixer_state[i].old_value);
     }
 }
 
