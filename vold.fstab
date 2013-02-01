@@ -15,9 +15,9 @@
 ## Example of a standard sdcard mount for the emulator / Dream
 # Mounts the first usable partition of the specified device
 ####### TO BE FIXED AND TESTED ###########
-dev_mount sdcard /mnt/sdcard 6 /devices/platform/emxx_sdio.0/mmc_host/mmc0
-dev_mount ext_sdcard /mnt/ext_sdcard auto /devices/platform/emxx_sdc/mmc_host/mmc1
-dev_mount u_disk /mnt/u_disk 1 /devices/platform/emxx-ehci-driver/usb1/1-1
+dev_mount sdcard     /storage/sdcard0  7    /devices/platform/emxx_sdio.0/mmc_host/mmc0
+dev_mount ext_sdcard /storage/sdcard1  auto /devices/platform/emxx_sdc/mmc_host/mmc1
+dev_mount u_disk     /storage/usbdisk0 1    /devices/platform/emxx-ehci-driver/usb1/1-1
 
 ## Example of a dual card setup
 # dev_mount left_sdcard  /sdcard1  auto /devices/platform/goldfish_mmc.0 /devices/platform/msm_sdcc.2/mmc_host/mmc1
