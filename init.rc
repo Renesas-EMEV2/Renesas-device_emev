@@ -47,18 +47,19 @@ loglevel 8
     mkdir /cache 0770 system cache
     mkdir /config 0500 root root
 
-# create mountpoints - for vold.fstab
+# create several mountpoints
+
+    mkdir /mnt 0775 root system
+    mkdir /storage 0775 root system
+
     # JB changed /mnt/sdcard... to /storage/sdcard...
-    #mkdir /mnt 0775 root system
+    # replaced by sym-links
     #mkdir /mnt/sdcard 0000 system system
     #mkdir /mnt/ext_sdcard 0000 system system
     #mkdir /mnt/u_disk 0000 system system
-    #mkdir /storage 0775 root system
     mkdir /storage/sdcard0 0000 system system
     mkdir /storage/sdcard1 0000 system system
     mkdir /storage/usbdisk0 0000 system system
-
-# Backwards Compatibility ( before JB )
     #symlink /mnt/sdcard /sdcard
     #symlink /mnt/ext_sdcard /ext_sdcard
     #symlink /mnt/u_disk /u_disk
@@ -99,6 +100,8 @@ loglevel 8
     write /proc/sys/kernel/sched_wakeup_granularity_ns 2000000
     write /proc/sys/kernel/sched_compat_yield 1
     write /proc/sys/kernel/sched_child_runs_first 0
+
+
 
 # Create cgroup mount points for process groups
     mkdir /dev/cpuctl
