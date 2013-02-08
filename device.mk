@@ -112,6 +112,31 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
 	$(SGX_BINARIES)/lib/egl/egl.cfg:system/lib/egl/egl.cfg
 
+#################################
+# OMX encoders/decoders
+OMF_PATH := $(LOCAL_PATH)/omf
+# Firmware
+PRODUCT_COPY_FILES += \
+	$(OMF_PATH)/dspfw/omf_dsp_manager.em-ev:system/lib/omf/dspfw/omf_dsp_manager.em-ev \
+	$(OMF_PATH)/dspfw/omf_me_aacd.em-ev:system/lib/omf/dspfw/omf_me_aacd.em-ev \
+	$(OMF_PATH)/dspfw/omf_me_jpegd.em-ev:system/lib/omf/dspfw/omf_me_jpegd.em-ev \
+	$(OMF_PATH)/dspfw/omf_me_jpege.em-ev:system/lib/omf/dspfw/omf_me_jpege.em-ev
+# Libraries
+PRODUCT_COPY_FILES += \
+	$(OMF_PATH)/libomf_manager.so:system/lib/libomf_manager.so \
+	$(OMF_PATH)/libomf_me_video_cmn.so:system/lib/libomf_me_video_cmn.so \
+	$(OMF_PATH)/omf_mc_aacd.so:system/lib/omf_mc_aacd.so \
+	$(OMF_PATH)/omf_mc_h264d.so:system/lib/omf_mc_h264d.so \
+	$(OMF_PATH)/omf_mc_m4vd.so:system/lib/omf_mc_m4vd.so \
+	$(OMF_PATH)/omf_mc_m2vd.so:system/lib/omf_mc_m2vd.so \
+	$(OMF_PATH)/omf_mc_vc1d.so:system/lib/omf_mc_vc1d.so \
+	$(OMF_PATH)/omf_mc_jpegd.so:system/lib/omf_mc_jpegd.so \
+	$(OMF_PATH)/omf_mc_jpege.so:system/lib/omf_mc_jpege.so
+# Other OMX files
+PRODUCT_COPY_FILES += \
+	$(OMF_PATH)/pvplayer.cfg:system/etc/pvplayer.cfg \
+	$(OMF_PATH)/omx_av_codec.cfg:system/lib/omf/omx_av_codec.cfg
+
 # Live Wallpapers
 PRODUCT_PACKAGES += \
         LiveWallpapers \
