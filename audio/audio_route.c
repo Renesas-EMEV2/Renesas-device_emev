@@ -16,7 +16,7 @@
  */
 
 #define LOG_TAG "audio_hw_primary"
-#define LOG_NDEBUG 0
+/* #define LOG_NDEBUG 0 */
 
 #include <errno.h>
 #include <expat.h>
@@ -32,6 +32,7 @@
 #define INITIAL_MIXER_PATH_SIZE 8
 
 #define MIXER_CARD 0
+#define MIXER_CTL_POWER 10
 
 struct mixer_state {
     struct mixer_ctl *ctl;
@@ -207,16 +208,18 @@ static int path_apply(struct audio_route *ar, struct mixer_path *path)
 
     for (i = 0; i < path->length; i++) {
         struct mixer_ctl *ctl = path->setting[i].ctl;
-
         /* locate the mixer ctl in the list */
         for (j = 0; j < ar->num_mixer_ctls; j++) {
             if (ar->mixer_state[j].ctl == ctl)
                 break;
         }
-
         /* apply the new value */
         ar->mixer_state[j].new_value = path->setting[i].value;
+	ALOGV("path_apply: ctl %d %s j=%d value=%d", i, 
+		mixer_ctl_get_name(path->setting[i].ctl), j, 
+		ar->mixer_state[j].new_value);
     }
+    path_print(path);
 
     return 0;
 }
@@ -226,8 +229,10 @@ static int mixer_enum_string_to_value(struct mixer_ctl *ctl, const char *string)
 {
     unsigned int i;
 
+    ALOGV(" mixer_enum_string_to_value search: %s", string);
     /* Search the enum strings for a particular one */
     for (i = 0; i < mixer_ctl_get_num_enums(ctl); i++) {
+	ALOGV("  with %s ", mixer_ctl_get_enum_string(ctl, i));
         if (strcmp(mixer_ctl_get_enum_string(ctl, i), string) == 0)
             break;
     }
@@ -247,12 +252,17 @@ static void start_tag(void *data, const XML_Char *tag_name,
     int value;
     struct mixer_setting mixer_setting;
 
+    ALOGV("start_tag tag: %s", tag_name);
     /* Get name, type and value attributes (these may be empty) */
     for (i = 0; attr[i]; i += 2) {
-        if (strcmp(attr[i], "name") == 0)
+        if (strcmp(attr[i], "name") == 0) {
             attr_name = attr[i + 1];
-        else if (strcmp(attr[i], "value") == 0)
+            ALOGV(" i%d name=%s", i, attr_name);
+        }
+        else if (strcmp(attr[i], "value") == 0) {
             attr_value = attr[i + 1];
+            ALOGV(" value=%s", attr_value);
+        }
     }
 
     /* Look at tags */
@@ -277,9 +287,11 @@ static void start_tag(void *data, const XML_Char *tag_name,
         switch (mixer_ctl_get_type(ctl)) {
         case MIXER_CTL_TYPE_BOOL:
         case MIXER_CTL_TYPE_INT:
+	    ALOGV(" ctl %s is type BOOL or INT", attr_name);
             value = atoi((char *)attr_value);
             break;
         case MIXER_CTL_TYPE_ENUM:
+            ALOGV(" ctl %s is type ENUM", attr_name);
             value = mixer_enum_string_to_value(ctl, (char *)attr_value);
             break;
         default:
@@ -341,21 +353,81 @@ static void free_mixer_state(struct audio_route *ar)
     ar->mixer_state = NULL;
 }
 
+void mixer_values_print(struct audio_route *ar)
+{
+    unsigned int i, j;
+    int val, k, n;
+
+    ALOGV("audio mixer values");
+    for (i = 0; i < ar->num_mixer_ctls; i++) {
+        ALOGV(" control '%s'", mixer_ctl_get_name(ar->mixer_state[i].ctl));
+        n=mixer_ctl_get_num_enums(ar->mixer_state[i].ctl);
+	if (n>0){
+           ALOGV("  possible values:");
+	   for (k = 0; k < n; k++){
+              ALOGV("   '%s' (%d)",  
+                  mixer_ctl_get_enum_string(ar->mixer_state[i].ctl, k), k);
+            }
+	}
+        for (j = 0; j < mixer_ctl_get_num_values(ar->mixer_state[i].ctl); j++) {
+            val=mixer_ctl_get_value(ar->mixer_state[i].ctl, j);
+                ALOGV("  value#%d='%s' (%d)", j, 
+                    mixer_ctl_get_enum_string(ar->mixer_state[i].ctl, val), val);
+        }
+    }
+}
+
+void set_mixer_values(struct audio_route *ar, unsigned int i)
+{
+    unsigned int j;
+    int ret;
+
+    /* Open CODEC Power first (or set_value would fail) */
+    if (mixer_ctl_set_value(ar->mixer_state[MIXER_CTL_POWER].ctl, 0, 1) < 0)
+	ALOGE("CODEC Power on failed");
+
+    /* set all ctl values the same */
+    for (j = 0; j < mixer_ctl_get_num_values(ar->mixer_state[i].ctl); j++) {
+        ALOGV(" set_mixer_values (j = %d)", j);
+	/* calling mixer ioctl interface */
+        ret = mixer_ctl_set_value(ar->mixer_state[i].ctl, j,
+                                  ar->mixer_state[i].new_value);
+        if (ret < 0){
+            ALOGE(" mixer_ctl_set_value failed on '%s' new value#%d = %d", 
+                    mixer_ctl_get_name(ar->mixer_state[i].ctl), j, 
+                    ar->mixer_state[i].new_value);
+        } else {
+            ar->mixer_state[i].old_value = ar->mixer_state[i].new_value;
+	}
+    }
+                
+}
+
 void update_mixer_state(struct audio_route *ar)
 {
     unsigned int i;
-    unsigned int j;
 
     for (i = 0; i < ar->num_mixer_ctls; i++) {
-        /* if the value has changed, update the mixer */
+        /* if value has changed, update the mixer */
         if (ar->mixer_state[i].old_value != ar->mixer_state[i].new_value) {
-            /* set all ctl values the same */
-            for (j = 0; j < mixer_ctl_get_num_values(ar->mixer_state[i].ctl); j++)
-                mixer_ctl_set_value(ar->mixer_state[i].ctl, j,
-                                    ar->mixer_state[i].new_value);
-            ar->mixer_state[i].old_value = ar->mixer_state[i].new_value;
+	    ALOGV("change mixer ctl %d - new: %d, old: %d", i, ar->mixer_state[i].new_value, 
+                  ar->mixer_state[i].old_value);
+            set_mixer_values (ar, i);
         }
-	ALOGV("mixert ctl %d - new: %d, old: %d", i, ar->mixer_state[i].new_value, ar->mixer_state[i].old_value);
+    }
+    mixer_values_print(ar);
+}
+
+void init_mixer_state(struct audio_route *ar)
+{
+    unsigned int i;
+
+    /* Open CODEC Power first */
+        
+
+    for (i = 0; i < ar->num_mixer_ctls; i++) {
+	ALOGV("init mixer ctl %d - value: %d, ", i, ar->mixer_state[i].new_value);
+        set_mixer_values (ar, i);
     }
 }
 
@@ -375,6 +447,7 @@ void reset_mixer_state(struct audio_route *ar)
 {
     unsigned int i;
 
+    ALOGV("reset_mixer_state");
     /* load all of the saved values */
     for (i = 0; i < ar->num_mixer_ctls; i++)
         ar->mixer_state[i].new_value = ar->mixer_state[i].reset_value;
@@ -465,7 +538,10 @@ struct audio_route *audio_route_init(void)
 
     /* apply the initial mixer values, and save them so we can reset the
        mixer to the original values */
-    update_mixer_state(ar);
+    /* update_mixer_state(ar); */
+    ALOGV("init_mixer_state");
+    init_mixer_state(ar);
+    ALOGV("save_mixer_state");
     save_mixer_state(ar);
 
     XML_ParserFree(parser);

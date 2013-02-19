@@ -183,6 +183,12 @@ static void select_devices(struct audio_device *adev)
     speaker_on = adev->devices & AUDIO_DEVICE_OUT_SPEAKER;
     main_mic_on = adev->devices & AUDIO_DEVICE_IN_BUILTIN_MIC;
 
+    ALOGV("select_devices: adev->devices=0x%x -> hp=%c speaker=%c main-mic=%c", 
+	 adev->devices,
+         headphone_on ? 'y' : 'n',
+         speaker_on ? 'y' : 'n', 
+         main_mic_on ? 'y' : 'n');
+
     reset_mixer_state(adev->ar);
 
     if (speaker_on)
@@ -200,10 +206,6 @@ static void select_devices(struct audio_device *adev)
 
     update_mixer_state(adev->ar);
 
-    ALOGV("hp=%c speaker=%c main-mic=%c", 
-         headphone_on ? 'y' : 'n',
-         speaker_on ? 'y' : 'n', 
-         main_mic_on ? 'y' : 'n');
 }
 
 /* must be called with hw device and output stream mutexes locked */

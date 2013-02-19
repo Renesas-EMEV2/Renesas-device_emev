@@ -55,7 +55,8 @@ PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/init.emxx.rc:root/init.emxx.rc \
 	$(LOCAL_PATH)/init.emev.sh:system/etc/init.emev.sh \
 	$(LOCAL_PATH)/vold.fstab:system/etc/vold.fstab \
-	$(LOCAL_PATH)/media_profiles.xml:system/etc/media_profiles.xml
+	$(LOCAL_PATH)/media_profiles.xml:system/etc/media_profiles.xml \
+	$(LOCAL_PATH)/media_codecs.xml:system/etc/media_codecs.xml
 
 # EMEV logo file
 PRODUCT_COPY_FILES += \
