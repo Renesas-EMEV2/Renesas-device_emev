@@ -16,13 +16,15 @@
 #
 # Everything in this directory will become public
 
-LOCAL_KERNEL := uImage
+# Hardware-specific resource overrides
+DEVICE_PACKAGE_OVERLAYS := device/renesas/emev/overlay
 
-#DEVICE_PACKAGE_OVERLAYS := device/samsung/tuna/overlay
+LOCAL_KERNEL := uImage
 
 PRODUCT_PACKAGES := \
 	lights.emxx \
-        gralloc.emxx 
+        gralloc.emxx \
+	libstagefrighthw
 
 # Audio
 PRODUCT_PACKAGES += \
@@ -80,6 +82,10 @@ PRODUCT_COPY_FILES += \
 # hardware conf
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/wifi/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml
+
+# Busybox
+PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/busybox:system/bin/busybox
 
 ##############################################
 # PowerVR SGX 530 EGL rendering engine drivers
@@ -144,9 +150,6 @@ PRODUCT_PACKAGES += \
         LiveWallpapersPicker \
         VisualizationWallpapers \
         librs_jni
-
-PRODUCT_PROPERTY_OVERRIDES += \
-	ro.sf.lcd_density=160
 
 PRODUCT_TAGS += dalvik.gc.type-precise
 

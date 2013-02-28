@@ -37,3 +37,14 @@ BOARD_WPA_SUPPLICANT_DRIVER := WEXT
 WITH_JIT := true
 JS_ENGINE := v8
 
+# Product-specific optimizations
+PRODUCT_PROPERTY_OVERRIDES := \
+	ro.sf.lcd_density=160 \
+        sys.device.type=tablet \
+	dalvik.vm.heapsize=48m
+
+PRODUCT_CHARACTERISTICS := \
+        tablet
+
+
+
