@@ -23,10 +23,10 @@ OMFPlugin::OMFPlugin() {
     omx_plugin.dl_handle = dlopen ("libomf_manager.so", RTLD_LAZY);
     if (!omx_plugin.dl_handle)
     {
-		ALOGE("***OMFPlugin() dl open error!!");
+		ALOGE("***OMFPlugin() libomf_manager.so dl open error!!");
         return;
     }
-    ALOGI("***OMFPlugin() dl open success !!!!!!!!");
+    ALOGI("***OMFPlugin() libomf_manager.so dl open success !!!!!!!!");
 
     omx_plugin.sym_table.init = *(OMX_ERRORTYPE (*)())dlsym (omx_plugin.dl_handle, "OMX_Init");
     omx_plugin.sym_table.deinit = *(OMX_ERRORTYPE (*)())dlsym (omx_plugin.dl_handle, "OMX_Deinit");
@@ -42,7 +42,8 @@ OMFPlugin::OMFPlugin() {
                                              OMX_U32 *pNumRoles,
                                              OMX_U8 **roles))dlsym (omx_plugin.dl_handle, "OMX_GetRolesOfComponent");
     
-    omx_plugin.sym_table.init();
+    OMX_ERRORTYPE ret = omx_plugin.sym_table.init();
+    ALOGI("***run OMFPlugin init: ret: 0x%08x", ret);
 }
 
 OMFPlugin::~OMFPlugin() {

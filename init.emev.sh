@@ -10,6 +10,11 @@ chown 0:1003 /dev/ave
 chown 0:1003 /dev/InterDSP/datamgr
 chown 0:1003 /dev/InterDSP/control
 
+chmod 777 /dev/ave
+chmod 777 /dev/InterDSP
+chmod 777 /dev/InterDSP/datamgr
+chmod 777 /dev/InterDSP/control
+
 insmod /lib/modules/inter_dsp.ko
 insmod /lib/modules/em_ave.ko
  
