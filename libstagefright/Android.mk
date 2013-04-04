@@ -1,5 +1,3 @@
-#ifeq ($(TARGET_BOARD_PLATFORM),emxx)
-
 LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
@@ -24,6 +22,6 @@ LOCAL_SHARED_LIBRARIES :=       \
 
 LOCAL_MODULE := libstagefrighthw
 LOCAL_MODULE_TAGS := optional
-include $(BUILD_SHARED_LIBRARY)
 
-#endif
+include $(BUILD_SHARED_LIBRARY)
+include $(call all-makefiles-under,$(LOCAL_PATH))

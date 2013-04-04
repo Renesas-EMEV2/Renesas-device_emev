@@ -4,8 +4,11 @@ chmod 666 /sys/power/sleep_while_idle
 
 busybox mknod /dev/ave c 125 0
 busybox mkdir /dev/InterDSP
-busybox mknod /dev/InterDSP/datamgr c 251 20
-busybox mknod /dev/InterDSP/control c 251 16
+# MAJOR and MINOR must match with values assigned by kernel driver
+# arch/arm/mach-emxx/inter_dsp.c : DSPDEV_MAJOR, DSPDEV_CONTROL_MINOR, DSPDEV_DATAMGR_MINOR
+busybox mknod /dev/InterDSP/datamgr c 63 25
+busybox mknod /dev/InterDSP/control c 63 16
+
 chown 0:1003 /dev/ave
 chown 0:1003 /dev/InterDSP/datamgr
 chown 0:1003 /dev/InterDSP/control
