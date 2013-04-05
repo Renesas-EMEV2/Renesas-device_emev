@@ -4,11 +4,33 @@ on boot
     setprop ro.radio.noril yes
     setprop ro.showcursor 1
 
+# service hciattach need permission of ttyS1
+    chown bluetooth bluetooth /dev/ttyS1
+    chown bluetooth bluetooth /system/etc/firmware/bcm4329.hcd
+    chmod 666 /dev/ttyS1
+
 #######
+# EMEV 
 service emev-setup /system/etc/init.emev.sh
     class core
     user root
     group root
     oneshot
+
+###########
+# bluetooth
+service iprenew_bnep0 /system/bin/dhcpcd -n
+    disabled
+    oneshot
+
+service hciattach /system/bin/brcm_patchram_plus \
+    --enable_hci --enable_lpm \
+    --baudrate 1500000 \
+    --patchram /system/etc/firmware/bcm4329.hcd /dev/ttyS1
+    class main
+    user bluetooth
+    group bluetooth net_bt_admin
+    disabled
+
 
 
