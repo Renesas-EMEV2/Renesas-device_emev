@@ -102,8 +102,8 @@ SGX_PATH := $(LOCAL_PATH)/sgx
 SGX_BINARIES := $(SGX_PATH)/out/system
 SGX_MODULES := $(SGX_PATH)/eurasia_km/eurasiacon/binary2_emev_android_debug/target/kbuild
 PRODUCT_COPY_FILES += \
-	$(SGX_MODULES)/pvrsrvkm.ko:root/lib/modules/pvrsrvkm.ko \
-	$(SGX_MODULES)/emxxlfb.ko:root/lib/modules/emxxlfb.ko
+	$(SGX_MODULES)/pvrsrvkm.ko:system/modules/pvrsrvkm.ko \
+	$(SGX_MODULES)/emxxlfb.ko:system/modules/emxxlfb.ko
 # HAL libraries
 PRODUCT_COPY_FILES += \
 	$(SGX_BINARIES)/vendor/lib/hw/gralloc.emxx.so:system/vendor/lib/hw/gralloc.emxx.so \
@@ -123,7 +123,7 @@ PRODUCT_COPY_FILES += \
 	$(SGX_BINARIES)/vendor/lib/libpvrANDROID_WSEGL.so:system/vendor/lib/libpvrANDROID_WSEGL.so
 # SGX Execution files
 PRODUCT_COPY_FILES += \
-	$(SGX_BINARIES)/vendor/bin/pvrsrvinit:system/vendor/bin/pvrsrvinit
+	$(SGX_BINARIES)/vendor/bin/pvrsrvctl:system/vendor/bin/pvrsrvctl
 # EGL configuration
 PRODUCT_COPY_FILES += \
 	$(SGX_BINARIES)/lib/egl/egl.cfg:system/lib/egl/egl.cfg

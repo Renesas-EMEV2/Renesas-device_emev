@@ -27,5 +27,6 @@ ln -s /dev/v4l/video1 /dev/video1
 mkdir /dev/fb
 ln -s /dev/graphics/fb0 /dev/fb/0
 
+# Start the SGX modules
 /system/vendor/bin/pvrsrvctl --start
 
