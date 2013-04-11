@@ -23,14 +23,18 @@ service iprenew_bnep0 /system/bin/dhcpcd -n
     disabled
     oneshot
 
-service hciattach /system/bin/brcm_patchram_plus \
-    --enable_hci --enable_lpm \
-    --baudrate 1500000 \
-    --patchram /system/etc/firmware/bcm4329.hcd /dev/ttyS1
+service hciattach /system/bin/hciattach -n /dev/ttyS1 bcm2048
     class main
     user bluetooth
-    group bluetooth net_bt_admin
+    group bluetooth system net_bt_admin
     disabled
+
+service bt_up /system/xbin/hciconfig hci0 up
+    class main
+    user bluetooth
+    group bluetooth system net_bt_admin
+    disabled
+    oneshot
 
 
 
