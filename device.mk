@@ -24,7 +24,8 @@ LOCAL_KERNEL := uImage
 PRODUCT_PACKAGES := \
 	lights.emxx \
         gralloc.emxx \
-	libstagefrighthw
+	libstagefrighthw \
+        sensors.emxx
 
 # Overall HW configuration (untested features commented out)
 PRODUCT_COPY_FILES += \

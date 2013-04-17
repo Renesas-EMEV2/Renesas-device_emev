@@ -1,4 +1,5 @@
 on boot
+
     setprop net.dns1 192.168.0.1
     setprop ro.radio.use-ppp no
     setprop ro.radio.noril yes
@@ -8,6 +9,10 @@ on boot
     chown bluetooth bluetooth /dev/ttyS1
     chown bluetooth bluetooth /system/etc/firmware/bcm4329.hcd
     chmod 666 /dev/ttyS1
+
+# BMA220 g-sensor
+    chown compass compass /dev/sensor
+    chmod 660 /dev/sensor
 
 #######
 # EMEV 
