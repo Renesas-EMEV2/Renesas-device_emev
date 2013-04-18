@@ -139,7 +139,7 @@ int BMA220Sensor::readEvents(sensors_event_t* data, int count)
     }
 
     ssize_t n = mInputReader.fill(data_fd);
-    ALOGI("readEvents count=%d; filled n=%d\r\n", count, n);
+    ALOGV("readEvents count=%d; filled n=%d\r\n", count, n);
     if (n < 0)
         return n;
 
@@ -148,7 +148,7 @@ int BMA220Sensor::readEvents(sensors_event_t* data, int count)
 
     while (count && mInputReader.readEvent(&event)) {
         int type = event->type;
-        ALOGI("readEvents type=%d, code=%d, value=%d\r\n", event->type, event->code, event->value);
+        ALOGV("readEvents type=%d, code=%d, value=%d\r\n", event->type, event->code, event->value);
         if (type == EV_ABS) {
             processEvent(event->code, event->value);
             mInputReader.next();
