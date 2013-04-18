@@ -45,7 +45,10 @@ JS_ENGINE := v8
 PRODUCT_PROPERTY_OVERRIDES := \
 	ro.sf.lcd_density=160 \
         sys.device.type=tablet \
-	dalvik.vm.heapsize=48m
+        dalvik.vm.heapstartsize=5m \
+        dalvik.vm.heapgrowthlimit=56m \
+        dalvik.vm.heapsize=128m 
+#	dalvik.vm.heapsize=64m
 
 PRODUCT_CHARACTERISTICS := \
         tablet
