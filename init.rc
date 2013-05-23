@@ -4,6 +4,8 @@
 ## from [AOSP]/system/core/rootdir
 
 import /init.${ro.hardware}.rc
++# import /init.usb.rc # TO TEST
++import /init.trace.rc
 
 on early-init
     start ueventd
@@ -91,7 +93,6 @@ loglevel 3
     symlink /storage/sdcard0 /sdcard
     symlink /storage/sdcard0 /mnt/sdcard
     symlink /storage/sdcard1 /mnt/ext_sdcard
-    symlink /storage/sdcard1 /mnt/sdcard/sd_external
     symlink /storage/usbdisk0 /mnt/u_disk
     symlink /storage/usbdisk0 /udisk
     # symlink /storage/sdcard...  ...
@@ -590,7 +591,7 @@ service dumpstate /system/bin/dumpstate -s
     disabled
     oneshot
 
-service wpa_supplicant /system/bin/wpa_supplicant -dd -Dwext -ieth0 -c /system/etc/wifi/wpa_supplicant.conf
+service wpa_supplicant /system/bin/wpa_supplicant -Dwext -ieth0 -c /system/etc/wifi/wpa_supplicant.conf
     class main
     socket wpa_eth0 dgram 660 wifi system
     group system wifi inet
