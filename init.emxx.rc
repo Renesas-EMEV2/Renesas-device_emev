@@ -5,6 +5,9 @@ on boot
     setprop ro.radio.noril yes
     setprop ro.showcursor 1
 
+# Using landscape lcd
+    setprop lcd.landscape true
+
 # service hciattach need permission of ttyS1
     chown bluetooth bluetooth /dev/ttyS1
     chown bluetooth bluetooth /system/etc/firmware/bcm4329.hcd
@@ -13,6 +16,9 @@ on boot
 # BMA220 g-sensor
     chown compass compass /dev/sensor
     chmod 660 /dev/sensor
+
+# Change Camera device permissions
+    chmod 0666 /dev/video1
 
 #######
 # EMEV 
@@ -40,6 +46,5 @@ service bt_up /system/xbin/hciconfig hci0 up
     group bluetooth system net_bt_admin
     disabled
     oneshot
-
 
 
