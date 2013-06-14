@@ -87,8 +87,10 @@ int init_nusensors(hw_module_t const* module, hw_device_t** device);
 #define EVENT_TYPE_GYRO_R           REL_RY
 #define EVENT_TYPE_GYRO_Y           REL_RZ
 
-// 1024 LSG = 1G
-#define LSG                         (1024.0f)
+// KXTF9 raw per-axis range -1024 ... +1024
+// BMA220 raw per-axis range -16 ... +16
+//#define LSG                         (1024.0f)
+#define LSG                         (16.0f)
 #define MAX_RANGE_A                 (2*GRAVITY_EARTH)
 // conversion of acceleration data to SI units (m/s^2)
 #define CONVERT_A                   (GRAVITY_EARTH / LSG)
