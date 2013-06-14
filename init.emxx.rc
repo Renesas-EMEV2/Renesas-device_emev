@@ -22,6 +22,9 @@ service emev-setup /system/etc/init.emev.sh
     group root
     oneshot
 
+# Using landscape lcd
+    setprop lcd.landscape true
+
 ###########
 # bluetooth
 service iprenew_bnep0 /system/bin/dhcpcd -n
