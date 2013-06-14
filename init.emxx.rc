@@ -25,7 +25,6 @@ service emev-setup /system/etc/init.emev.sh
     group root
     oneshot
 
-
 ###########
 # bluetooth
 service iprenew_bnep0 /system/bin/dhcpcd -n
