@@ -14,6 +14,10 @@ on boot
     chown compass compass /dev/sensor
     chmod 660 /dev/sensor
 
+# 3G scripts
+    chmod 755 /system/etc/ppp/ip-up-datakey
+    chmod 755 /system/etc/ppp/ip-down-datakey
+
 # Using a landscape screen
     setprop lcd.landscape true
 
@@ -43,6 +47,13 @@ service bt_up /system/xbin/hciconfig hci0 up
     group bluetooth system net_bt_admin
     disabled
     oneshot
+
+service ril-daemon /system/bin/rild -l /system/lib/libreference-ril.so -- -d /dev/ttyUSB1
+	class main
+	socket rild stream 660 root radio
+	socket rild-debug stream 660 radio system
+	user root
+	group radio cache inet misc audio sdcard_r sdcard_rw vpn net_admin
 
 
 

@@ -25,21 +25,23 @@ PRODUCT_PACKAGES := \
 	lights.emxx \
         gralloc.emxx \
 	libstagefrighthw \
-        sensors.emxx
+        sensors.emxx 
 
 # Overall HW configuration (untested features commented out)
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/tablet_core_hardware.xml:system/etc/permissions/tablet_core_hardware.xml \
-#    frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
+    frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
     frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
+    frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
+    frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
+    frameworks/native/data/etc/android.hardware.sensor.accelerometer.xml:system/etc/permissions/android.hardware.sensor.accelerometer.xml \
+    frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml
 #    frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
 #    frameworks/native/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
 #    frameworks/native/data/etc/android.hardware.sensor.gyroscope.xml:system/etc/permissions/android.hardware.sensor.gyroscope.xml \
 #    frameworks/native/data/etc/android.hardware.camera.front.xml:system/etc/permissions/android.hardware.camera.front.xml \
 #    frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
 #    frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
-    frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
-    frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml
 
 # Audio
 PRODUCT_PACKAGES += \
@@ -102,6 +104,15 @@ PRODUCT_COPY_FILES += \
 # Bluetooth configuration
 PRODUCT_COPY_FILES += \
 	system/bluetooth/data/main.nonsmartphone.conf:system/etc/bluetooth/main.conf
+
+# 3G modem
+PRODUCT_PACKAGES += \
+        rild
+
+PRODUCT_COPY_FILES += \
+        $(LOCAL_PATH)/3G/apns-full-conf.xml:system/etc/apns-conf.xml \
+        $(LOCAL_PATH)/3G/ip-up-datakey:system/etc/ppp/ip-up-datakey \
+        $(LOCAL_PATH)/3G/ip-down-datakey:system/etc/ppp/ip-down-datakey
 
 # Busybox
 PRODUCT_COPY_FILES += \

@@ -6,4 +6,7 @@
 /dev/rot0                 0666   root       graphics
 /dev/pvrsrvkm             0666   system     graphics
 /dev/bc_example           0666   system     graphics
-
+/dev/ttyUSB0              0660   radio      radio
+/dev/ttyUSB1              0660   radio      radio
+/dev/ttyUSB2              0660   radio      radio
+/dev/ttyUSB3              0660   radio      radio

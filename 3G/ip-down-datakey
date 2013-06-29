@@ -1,0 +1,13 @@
+#!/system/bin/sh
+case $1 in
+    ppp1)
+        echo 0 > /proc/sys/net/ipv4/ip_forward;
+        ;;
+esac
+
+/system/bin/setprop "net.ppp1.dns1" ""
+/system/bin/setprop "net.ppp1.dns2" ""
+/system/bin/setprop "net.ppp1.local-ip" ""
+/system/bin/setprop "net.ppp1.remote-ip" ""
+/system/bin/setprop "net.ppp1.gw" ""
+/system/bin/setprop "net.ppp1.if" ""
