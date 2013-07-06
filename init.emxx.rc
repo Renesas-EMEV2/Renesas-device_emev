@@ -5,6 +5,9 @@ on boot
     setprop ro.radio.noril yes
     setprop ro.showcursor 1
 
+# Using landscape lcd
+    setprop lcd.landscape true
+
 # service hciattach need permission of ttyS1
     chown bluetooth bluetooth /dev/ttyS1
     chown bluetooth bluetooth /system/etc/firmware/bcm4329.hcd
@@ -20,6 +23,9 @@ on boot
 
 # Using a landscape screen
     setprop lcd.landscape true
+
+# Change Camera device permissions
+    chmod 0666 /dev/video1
 
 #######
 # EMEV 
@@ -54,6 +60,5 @@ service ril-daemon /system/bin/rild -l /system/lib/libreference-ril.so -- -d /de
 	socket rild-debug stream 660 radio system
 	user root
 	group radio cache inet misc audio sdcard_r sdcard_rw vpn net_admin
-
 
 
