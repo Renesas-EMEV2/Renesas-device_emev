@@ -121,40 +121,33 @@ PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/busybox:system/bin/busybox
 
 # Camera library
-include device/renesas/emev/libcamera/camera.mk
-
+include $(LOCAL_PATH)/libcamera/camera.mk
 
 ##############################################
 # PowerVR SGX 530 EGL rendering engine drivers
-SGX_PATH := $(LOCAL_PATH)/sgx
-SGX_BINARIES := $(SGX_PATH)/out/system
-SGX_MODULES := $(SGX_PATH)/eurasia_km/eurasiacon/binary2_emev_android_debug/target/kbuild
+SGX_KERNELMOD := $(LOCAL_PATH)/sgx/km
+SGX_USERMOD := $(LOCAL_PATH)/sgx/um
+# Kernel modules
 PRODUCT_COPY_FILES += \
-	$(SGX_MODULES)/pvrsrvkm.ko:system/modules/pvrsrvkm.ko \
-	$(SGX_MODULES)/emxxlfb.ko:system/modules/emxxlfb.ko
-# HAL libraries
+	$(SGX_KERNELMOD)/pvrsrvkm.ko:system/modules/pvrsrvkm.ko \
+	$(SGX_KERNELMOD)/emxxlfb.ko:system/modules/emxxlfb.ko
+# User modules and binaries
 PRODUCT_COPY_FILES += \
-	$(SGX_BINARIES)/vendor/lib/hw/gralloc.emxx.so:system/vendor/lib/hw/gralloc.emxx.so \
-	$(SGX_BINARIES)/vendor/lib/hw/hwcomposer.emxx.so:system/vendor/lib/hw/hwcomposer.emxx.so
-# SGX library files
-PRODUCT_COPY_FILES += \
-	$(SGX_BINARIES)/vendor/lib/egl/libEGL_POWERVR_SGX530_120.so:system/vendor/lib/egl/libEGL_POWERVR_SGX530_120.so \
-	$(SGX_BINARIES)/vendor/lib/egl/libGLESv1_CM_POWERVR_SGX530_120.so:system/vendor/lib/egl/libGLESv1_CM_POWERVR_SGX530_120.so \
-	$(SGX_BINARIES)/vendor/lib/egl/libGLESv2_POWERVR_SGX530_120.so:system/vendor/lib/egl/libGLESv2_POWERVR_SGX530_120.so \
-	$(SGX_BINARIES)/vendor/lib/libIMGegl.so:system/vendor/lib/libIMGegl.so \
-	$(SGX_BINARIES)/vendor/lib/libPVRScopeServices.so:system/vendor/lib/libPVRScopeServices.so \
-	$(SGX_BINARIES)/vendor/lib/libglslcompiler.so:system/vendor/lib/libglslcompiler.so \
-	$(SGX_BINARIES)/vendor/lib/libsrv_um.so:system/vendor/lib/libsrv_um.so \
-	$(SGX_BINARIES)/vendor/lib/libsrv_init.so:system/vendor/lib/libsrv_init.so \
-	$(SGX_BINARIES)/vendor/lib/libusc.so:system/vendor/lib/libusc.so \
-	$(SGX_BINARIES)/vendor/lib/libpvr2d.so:system/vendor/lib/libpvr2d.so \
-	$(SGX_BINARIES)/vendor/lib/libpvrANDROID_WSEGL.so:system/vendor/lib/libpvrANDROID_WSEGL.so
-# SGX Execution files
-PRODUCT_COPY_FILES += \
-	$(SGX_BINARIES)/vendor/bin/pvrsrvctl:system/vendor/bin/pvrsrvctl
-# EGL configuration
-PRODUCT_COPY_FILES += \
-	$(SGX_BINARIES)/lib/egl/egl.cfg:system/lib/egl/egl.cfg
+	$(SGX_USERMOD)/system/vendor/lib/hw/gralloc.emxx.so:system/vendor/lib/hw/gralloc.emxx.so \
+	$(SGX_USERMOD)/system/vendor/lib/hw/hwcomposer.emxx.so:system/vendor/lib/hw/hwcomposer.emxx.so \
+	$(SGX_USERMOD)/system/vendor/lib/egl/libEGL_POWERVR_SGX530_120.so:system/vendor/lib/egl/libEGL_POWERVR_SGX530_120.so \
+	$(SGX_USERMOD)/system/vendor/lib/egl/libGLESv1_CM_POWERVR_SGX530_120.so:system/vendor/lib/egl/libGLESv1_CM_POWERVR_SGX530_120.so \
+	$(SGX_USERMOD)/system/vendor/lib/egl/libGLESv2_POWERVR_SGX530_120.so:system/vendor/lib/egl/libGLESv2_POWERVR_SGX530_120.so \
+	$(SGX_USERMOD)/system/vendor/lib/libIMGegl.so:system/vendor/lib/libIMGegl.so \
+	$(SGX_USERMOD)/system/vendor/lib/libPVRScopeServices.so:system/vendor/lib/libPVRScopeServices.so \
+	$(SGX_USERMOD)/system/vendor/lib/libglslcompiler.so:system/vendor/lib/libglslcompiler.so \
+	$(SGX_USERMOD)/system/vendor/lib/libsrv_um.so:system/vendor/lib/libsrv_um.so \
+	$(SGX_USERMOD)/system/vendor/lib/libsrv_init.so:system/vendor/lib/libsrv_init.so \
+	$(SGX_USERMOD)/system/vendor/lib/libusc.so:system/vendor/lib/libusc.so \
+	$(SGX_USERMOD)/system/vendor/lib/libpvr2d.so:system/vendor/lib/libpvr2d.so \
+	$(SGX_USERMOD)/system/vendor/lib/libpvrANDROID_WSEGL.so:system/vendor/lib/libpvrANDROID_WSEGL.so \
+	$(SGX_USERMOD)/system/vendor/bin/pvrsrvctl:system/vendor/bin/pvrsrvctl \
+	$(SGX_USERMOD)/system/lib/egl/egl.cfg:system/lib/egl/egl.cfg
 
 #################################
 # OMX encoders/decoders
