@@ -27,8 +27,7 @@ on boot
 # Change Camera device permissions
     chmod 0666 /dev/video1
 
-#######
-# EMEV 
+# PVR (SGX) module and service startup
 service emev-setup /system/etc/init.emev.sh
     class core
     user root
