@@ -6,20 +6,20 @@
   <ctl name="CODEC Power Switch" value="0" />
 
   <path name="speaker">
-    <ctl name="Playback Switch" value="Speaker_normal" />
     <ctl name="CODEC Power Switch" value="1" />
+    <ctl name="Playback Switch" value="Speaker_normal" />
     <ctl name="Sampling Rate Switch" value="44.1kHz" />
   </path>
 
   <path name="headphone">
-    <ctl name="Playback Switch" value="Headset_normal" />
     <ctl name="CODEC Power Switch" value="1" />
+    <ctl name="Playback Switch" value="Headset_normal" />
     <ctl name="Sampling Rate Switch" value="44.1kHz" />
   </path>
 
   <path name="mic">
-    <ctl name="Capture Switch" value="MIC_normal" />
     <ctl name="CODEC Power Switch" value="1" />
+    <ctl name="Capture Switch" value="MIC_normal" />
     <ctl name="Sampling Rate Switch" value="44.1kHz" />
   </path>
 

@@ -32,7 +32,7 @@
 #define INITIAL_MIXER_PATH_SIZE 8
 
 #define MIXER_CARD 0
-#define MIXER_CTL_POWER 10
+#define MIXER_CTL_POWER 11
 
 struct mixer_state {
     struct mixer_ctl *ctl;
@@ -388,7 +388,7 @@ void set_mixer_values(struct audio_route *ar, unsigned int i)
 
     /* set all ctl values the same */
     for (j = 0; j < mixer_ctl_get_num_values(ar->mixer_state[i].ctl); j++) {
-        ALOGV(" set_mixer_values (j = %d)", j);
+        ALOGE(" set_mixer_values (j = %d) to %d", j, ar->mixer_state[i].new_value);
 	/* calling mixer ioctl interface */
         ret = mixer_ctl_set_value(ar->mixer_state[i].ctl, j,
                                   ar->mixer_state[i].new_value);
@@ -421,9 +421,6 @@ void update_mixer_state(struct audio_route *ar)
 void init_mixer_state(struct audio_route *ar)
 {
     unsigned int i;
-
-    /* Open CODEC Power first */
-        
 
     for (i = 0; i < ar->num_mixer_ctls; i++) {
 	ALOGV("init mixer ctl %d - value: %d, ", i, ar->mixer_state[i].new_value);
